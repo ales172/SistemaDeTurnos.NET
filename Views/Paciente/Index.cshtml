@@ -1,0 +1,66 @@
+﻿@using SistemaDeTurnos.Models
+@model List<Paciente>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<!DOCTYPE html>
+
+<html>
+<body>
+    <main>
+        <div>
+
+            <h2>Pacientes:</h2>
+            <span style="z-index:0">@Html.ActionLink("Nuevo", "Create", "Paciente", null, new { @class = "glyphicon glyphicon-plus" })</span>
+            @using (Html.BeginForm())
+            {
+                <table class="table">
+                    <thead>
+                        <tr>Buscar Paciente</tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input name="aBuscar" type="text" class="form-control" autocomplete="off" />
+                            </td>
+                            <td class="text-right">
+                                <button class="glyphicon glyphicon-search btnCrear"></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
+            <table>
+
+                @foreach (Paciente paciente in this.Model)
+                {
+                    <tr>
+                        <td><h4 onclick="location.href='@Url.Action("Details", "Paciente",new { Id = paciente.Id_Paciente})'">@paciente.Apellido @paciente.Nombre</h4></td>
+
+                        <td class="text-center">
+                            <div class="text-right">
+                                @Html.ActionLink(" ", $"Edit", new { Id = paciente.Id_Paciente }, new
+                           {
+                               @class = "glyphicon glyphicon-edit",
+                               style = "font-size: 1.Sem"
+                           })
+
+
+                                @Html.ActionLink(" ", "Eliminar", new { Id = paciente.Id_Paciente }, new
+                           {
+                               @class = "glyphicon glyphicon-trash",
+                               style = "font-size: 1.Sem"
+                           })
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </main>
+</body>
+</html>

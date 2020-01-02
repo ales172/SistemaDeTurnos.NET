@@ -1,0 +1,134 @@
+* {
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box
+}
+body{
+    padding-top:100px
+}
+body > header {
+    display: inline-flex;
+    padding: 0.5rem 1rem;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    background-color: #713bff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    position:fixed;
+    width: 100%;
+    height: 83px;
+    top: 0;
+    z-index:999;
+}
+
+
+    body > header > a {
+    color: white;
+    text-decoration: none;
+}
+
+
+    nav > a {
+        display: inline-block;
+        color: white;
+        justify-content: space-around,flex-end;
+    }
+
+
+
+#logo-header {
+    justify-content: center
+    float: left;
+    padding: 15px 0 0 20px;
+    text-decoration: none;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    top:83px;
+    margin: 0 auto -4em;
+}
+
+.footer, .push {
+    height: 4em;
+}
+footer {
+    background-color: #713bff;
+    text-align: center;
+    color: white;
+    padding: 1rem;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    z-index:901;
+}
+
+
+.sectionTest {
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 50px;
+    padding-top: 50px;
+}
+#navMenu {
+    color: white;
+    text-decoration: none;
+    padding: 5px;
+    
+}
+#navLibros {
+    background-color: #ebebeb;
+    width: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: center;
+    height: 100%;
+    position: absolute;
+    float: right;
+    right: 0;
+    top: 85px;
+    box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 5px;
+    color: #713bff;
+    z-index: 900;
+    height:100vh;
+}
+#tablaMuestra {
+    align-items:center;
+    float:right;
+    top: 150px;
+
+}
+.btnHome {
+    color: white;
+    background-color: transparent;
+    border: none;
+}
+.container {
+    top:150px;
+}
+
+.btnCrear,#btnCrear {
+    color: #713bff;
+    background-color: transparent;
+    border: none;
+}
+
+.img-responsive{
+    height:100%;
+    min-height:207px;
+    width: 100%;
+}
+#navLibros > a {
+    color: #713bff;
+}
+#tablaCrea{
+    padding-bottom: 15px;
+}

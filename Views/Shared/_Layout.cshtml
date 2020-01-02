@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Alejandro Schulten</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <link href="~/Content/cards.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/indexScript.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+
+</head>
+<body>
+    <header>
+        @Html.ActionLink("Inicio", "Index", "Home", null, new { @class = "btnHome" })
+        <div style="top:0px; align-content: center; justify-content: stretch"><h2>Sistema De Turnos</h2>
+        </div>
+        <nav id="navMenu">
+            <a href="/Paciente/Index" class="link" data-archivo="libros">Pacientes</a>
+            <a href="/Turnos/Index" class="link" data-archivo="autores">Turnos</a>
+
+        </nav>
+        <!--
+        <button id="btnMenu"><span class="glyphicon glyphicon-menu-hamburger "></span></button>-->
+        <!--<form action="">
+            <input type="search">
+            <i class="fa fa-search"></i>
+        </form>-->
+    </header>
+
+
+
+    @RenderBody()
+
+
+
+    <footer>
+        <p>SASS  &copy; Copyright - 2019</p>
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+
+

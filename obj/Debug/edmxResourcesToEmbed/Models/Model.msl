@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SystemaDeTurnosModelStoreContainer" CdmEntityContainer="SystemaDeTurnosEntities">
+    <EntitySetMapping Name="Ficha">
+      <EntityTypeMapping TypeName="SystemaDeTurnosModel.Ficha">
+        <MappingFragment StoreEntitySet="Ficha">
+          <ScalarProperty Name="Id_Ficha" ColumnName="Id_Ficha" />
+          <ScalarProperty Name="Id_Paciente" ColumnName="Id_Paciente" />
+          <ScalarProperty Name="Fecha_Ingreso" ColumnName="Fecha_Ingreso" />
+          <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
+          <ScalarProperty Name="Antecedentes" ColumnName="Antecedentes" />
+          <ScalarProperty Name="Contraindicaciones" ColumnName="Contraindicaciones" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Medico">
+      <EntityTypeMapping TypeName="SystemaDeTurnosModel.Medico">
+        <MappingFragment StoreEntitySet="Medico">
+          <ScalarProperty Name="Id_Medico" ColumnName="Id_Medico" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+          <ScalarProperty Name="Dni" ColumnName="Dni" />
+          <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+          <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Observacion">
+      <EntityTypeMapping TypeName="SystemaDeTurnosModel.Observacion">
+        <MappingFragment StoreEntitySet="Observacion">
+          <ScalarProperty Name="Id_Observacion" ColumnName="Id_Observacion" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="Id_Paciente" ColumnName="Id_Paciente" />
+          <ScalarProperty Name="Id_Medico" ColumnName="Id_Medico" />
+          <ScalarProperty Name="Detalle" ColumnName="Detalle" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Paciente">
+      <EntityTypeMapping TypeName="SystemaDeTurnosModel.Paciente">
+        <MappingFragment StoreEntitySet="Paciente">
+          <ScalarProperty Name="Id_Paciente" ColumnName="Id_Paciente" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+          <ScalarProperty Name="Dni" ColumnName="Dni" />
+          <ScalarProperty Name="Fecha_Nac" ColumnName="Fecha_Nac" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+          <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+          <ScalarProperty Name="Telefono_Contacto" ColumnName="Telefono_Contacto" />
+          <ScalarProperty Name="Obra_Social" ColumnName="Obra_Social" />
+          <ScalarProperty Name="Numero_OS" ColumnName="Numero_OS" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tratamiento">
+      <EntityTypeMapping TypeName="SystemaDeTurnosModel.Tratamiento">
+        <MappingFragment StoreEntitySet="Tratamiento">
+          <ScalarProperty Name="Id_Tratamiento" ColumnName="Id_Tratamiento" />
+          <ScalarProperty Name="Id_Paciente" ColumnName="Id_Paciente" />
+          <ScalarProperty Name="Id_Medico" ColumnName="Id_Medico" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="Detalle" ColumnName="Detalle" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Turno">
+      <EntityTypeMapping TypeName="SystemaDeTurnosModel.Turno">
+        <MappingFragment StoreEntitySet="Turno">
+          <ScalarProperty Name="Fin" ColumnName="Fin" />
+          <ScalarProperty Name="Inicio" ColumnName="Inicio" />
+          <ScalarProperty Name="Id_Turno" ColumnName="Id_Turno" />
+          <ScalarProperty Name="Id_Paciente" ColumnName="Id_Paciente" />
+          <ScalarProperty Name="Id_Medico" ColumnName="Id_Medico" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
