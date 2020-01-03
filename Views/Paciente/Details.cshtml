@@ -9,52 +9,70 @@
 <html>
 <body>
     <main>
-            <h2>@this.ViewBag.TituloPagina</h2>
-            Datos del Paciente:
-            <table class="text-left" id="tablaCrea">
-                <tbody>
-                    <tr style="padding-bottom: 15px; padding-top: 15px">
-                        <td>
-                            <label>Nombre: </label>
-                            <p> @this.Model.Nombre </p>
-                        </td>
-                        <td>
-                            <label>Apellido</label>
-                            <p>@this.Model.Apellido </p>
-                        </td>
-                        <td>
-                            <label>DNI        </label>
-                            <p> @this.Model.Dni </p>
-                        </td>
-                        <td>
-                            <label>Fecha de Nacimiento</label>
-                            <p>@this.Model.Fecha_Nac </p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>Dirección</label>
-                            <p> @this.Model.Direccion </p>
-                        </td>
-                        <td>
-                            <label>Teléfono</label>
-                            <p>@this.Model.Telefono </>
-                        </td>
-                        <td>
-                            <label>Teléfono de Contácto</label>
-                            <p> @this.Model.Telefono_Contacto</p>
-                        </td>
-                        <td>
-                            <label>Obra Social</label>
-                            <p>@this.Model.Obra_Social</p>
-                        </td>
-                        <td>
-                            <label>Número de Obra Social</label>
-                            <p>@this.Model.Numero_OS</p>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <h2>@this.ViewBag.TituloPagina</h2>
+        <div style="color: #713bff">
+            @Html.ActionLink("Editar    ", $"Edit", new { Id = this.Model.Id_Paciente }, new
+            {
+                @class = "glyphicon glyphicon-edit",
+                style = "font-size: 1.Sem"
+            })
+
+
+            @Html.ActionLink("Borrar   ", "Delete", new { Id = this.Model.Id_Paciente }, new
+            {
+                @class = "glyphicon glyphicon-trash",
+                style = "font-size: 1.Sem"
+            })
+            <a href="/Paciente/Index" class="glyphicon glyphicon-menu-left" data-archivo="libros">Volver</a>
+
+        </div>
+        <div>
+        </div>
+        Datos del Paciente:
+        <table class="text-left" id="tablaCrea">
+            <tbody>
+                <tr style="padding-bottom: 15px; padding-top: 15px">
+                    <td>
+                        <label>Nombre: </label>
+                        <p> @this.Model.Nombre </p>
+                    </td>
+                    <td>
+                        <label>Apellido</label>
+                        <p>@this.Model.Apellido </p>
+                    </td>
+                    <td>
+                        <label>DNI        </label>
+                        <p> @this.Model.Dni </p>
+                    </td>
+                    <td>
+                        <label>Fecha de Nacimiento</label>
+                        <p>@this.Model.Fecha_Nac </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Dirección</label>
+                        <p> @this.Model.Direccion </p>
+                    </td>
+                    <td>
+                        <label>Teléfono</label>
+                        <p>@this.Model.Telefono </>
+                    </td>
+                    <td>
+                        <label>Teléfono de Contácto</label>
+                        <p> @this.Model.Telefono_Contacto</p>
+                    </td>
+                    <td>
+                        <label>Obra Social</label>
+                        <p>@this.Model.Obra_Social</p>
+                    </td>
+                    <td>
+                        <label>Número de Obra Social</label>
+                        <p>@this.Model.Numero_OS</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </main>
 </body>
 </html>

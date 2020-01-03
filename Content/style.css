@@ -132,3 +132,8 @@ footer {
 #tablaCrea{
     padding-bottom: 15px;
 }
+.clickNombre:hover {
+    text-decoration: underline;
+    padding-left:15px;
+    padding-bottom:15px;
+}

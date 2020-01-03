@@ -134,6 +134,11 @@ namespace SistemaDeTurnos.Controllers
         public ActionResult Delete(int Id)
         {
             Paciente paciente = this.db.Paciente.FirstOrDefault(p => p.Id_Paciente == Id);
+            foreach(Ficha ficha in paciente.Ficha.ToList())
+            {
+            this.db.Ficha.Remove(ficha);
+
+            }
             this.db.Paciente.Remove(paciente);
             this.db.SaveChanges();
             return RedirectToAction("Index");

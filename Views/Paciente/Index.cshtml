@@ -15,14 +15,14 @@
         <div>
 
             <h2>Pacientes:</h2>
-            <span style="z-index:0">@Html.ActionLink("Nuevo", "Create", "Paciente", null, new { @class = "glyphicon glyphicon-plus" })</span>
+            <span style="z-index:0; color: #15004D" >@Html.ActionLink("Nuevo", "Create", "Paciente", null, new { @class = "glyphicon glyphicon-plus" })</span>
             @using (Html.BeginForm())
             {
                 <table class="table">
                     <thead>
                         <tr>Buscar Paciente</tr>
                     </thead>
-                    <tbody>
+                    <tbody style="color: #15004D">
                         <tr>
                             <td>
                                 <input name="aBuscar" type="text" class="form-control" autocomplete="off" />
@@ -39,7 +39,7 @@
                 @foreach (Paciente paciente in this.Model)
                 {
                     <tr>
-                        <td><h4 onclick="location.href='@Url.Action("Details", "Paciente",new { Id = paciente.Id_Paciente})'">@paciente.Apellido @paciente.Nombre</h4></td>
+                        <td><a class="clickNombre" onclick="location.href='@Url.Action("Details", "Paciente",new { Id = paciente.Id_Paciente})'">@paciente.Apellido @paciente.Nombre</a></td>
 
                         <td class="text-center">
                             <div class="text-right">
@@ -50,7 +50,7 @@
                            })
 
 
-                                @Html.ActionLink(" ", "Eliminar", new { Id = paciente.Id_Paciente }, new
+                                @Html.ActionLink(" ", "Delete", new { Id = paciente.Id_Paciente }, new
                            {
                                @class = "glyphicon glyphicon-trash",
                                style = "font-size: 1.Sem"
