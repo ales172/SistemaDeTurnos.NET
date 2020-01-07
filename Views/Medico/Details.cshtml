@@ -1,0 +1,52 @@
+﻿@using SistemaDeTurnos.Models
+@model Medico
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<!DOCTYPE html>
+<html>
+<body>
+    <main>
+        <h2>@this.ViewBag.TituloPagina</h2>
+        <div style="color: #713bff">
+            @Html.ActionLink("Editar    ", $"Edit", new { Id = this.Model.Id_Medico }, new
+            {
+                @class = "btn glyphicon glyphicon-edit",
+                style = "font-size: 1.Sem"
+            })
+            <a href="/Medico/Index" class="btn glyphicon glyphicon-menu-left">Volver</a>
+
+        </div>
+        <div>
+        </div>
+        <table class="table text-left" id="tablaCrea">
+            <tbody>
+                <tr style="padding-bottom: 15px; padding-top: 15px">
+                    <td>
+                        <label>Nombre: </label>
+                        <p> @this.Model.Nombre </p>
+                    </td>
+                    <td>
+                        <label>Apellido</label>
+                        <p>@this.Model.Apellido </p>
+                    </td>
+                    <td>
+                        <label>DNI        </label>
+                        <p> @this.Model.Dni </p>
+                    </td>
+                    <td>
+                        <label>Matricula</label>
+                        <p>@this.Model.Matricula</p>
+                    </td>
+                    <td>
+                        <label>Teléfono</label>
+                        <p>@this.Model.Telefono </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

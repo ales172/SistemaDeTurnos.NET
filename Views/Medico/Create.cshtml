@@ -1,0 +1,48 @@
+﻿@using SistemaDeTurnos.Models
+@model Medico
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<!DOCTYPE html>
+<html>
+<body>
+    <main>
+        <form method="post">
+            <h2>@this.ViewBag.TituloPagina</h2>
+            Datos del Paciente:
+            <table class="text-left" id="tablaCrea">
+                <tbody>
+                    <tr style="padding-bottom: 15px; padding-top: 15px">
+                        <td>
+                            <label>Nombre</label>
+                            <input class="form-control" type="text" name="Nombre" value="@this.Model.Nombre" required />
+                        </td>
+                        <td>
+                            <label>Apellido</label>
+                            <input class="form-control" type="text" name="Apellido" value="@this.Model.Apellido" required />
+                        </td>
+                        <td>
+                            <label>DNI (sin puntos)</label>
+                            <input class="form-control" type="text" name="Dni" value="@this.Model.Dni" pattern="[0-9]{7-8}" required />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Matrícula</label>
+                            <input class="form-control" type="text" name="Matricula" value="@this.Model.Matricula" required />
+                        </td>
+                        <td>
+                            <label>Teléfono</label>
+                            <input class="form-control" type="text" name="Telefono" value="@this.Model.Telefono" required />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button class="btn">Enviar Datos</button>
+        </form>
+    </main>
+</body>
+</html>

@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -19,13 +21,19 @@ namespace SistemaDeTurnos.Controllers
         [HttpPost]
         public ActionResult Index(String aBuscar)
         {
-            List<Paciente> todos = db.Paciente.ToList();
-            IQueryable<Paciente> qryNombre = db.Paciente;
-            IQueryable<Paciente> qryApellido = db.Paciente;
-            List<Paciente> listadoPacientes = new List<Paciente>();
-
-            if((aBuscar!= null) && (aBuscar.Length != 0))
+            if ((aBuscar != null) && (aBuscar.Length != 0))
             {
+                /*//normalizo el string de entrada y le saco acentos
+                string textoOriginal = aBuscar;
+                string textoNormalizado = textoOriginal.Normalize(NormalizationForm.FormD);
+                Regex reg = new Regex("[^a-zA-Z0-9 ]");
+                string textoSinAcentos = reg.Replace(textoNormalizado, "");
+                */
+                List<Paciente> todos = db.Paciente.ToList();
+                IQueryable<Paciente> qryNombre = db.Paciente;
+                IQueryable<Paciente> qryApellido = db.Paciente;
+                List<Paciente> listadoPacientes = new List<Paciente>();
+
                 qryNombre = qryNombre.Where(p => p.Nombre.Contains(aBuscar));
                 qryApellido = qryApellido.Where(p => p.Apellido.Contains(aBuscar));
                 foreach (Paciente paciente in qryNombre)
@@ -35,29 +43,28 @@ namespace SistemaDeTurnos.Controllers
                 foreach (Paciente pac in qryApellido)
                 {
                     int flag = 0;
-                    foreach(Paciente p in listadoPacientes)
+                    foreach (Paciente p in listadoPacientes)
                     {
-                        if(p.Id_Paciente == pac.Id_Paciente)
+                        if (p.Id_Paciente == pac.Id_Paciente)
                         {
                             flag = 1;
                         }
                     }
                     if (flag == 0)
                     {
-                    listadoPacientes.Add(pac);
+                        listadoPacientes.Add(pac);
                     }
                 }
-            
 
-            }
-
-            return View(listadoPacientes);
+                return View(listadoPacientes);
+            } else return View(this.db.Paciente.OrderBy(p => p.Apellido).ToList());
         }
         // GET: Paciente/Details/5
         public ActionResult Details(int Id)
         {
             Paciente paciente = db.Paciente.Find(Id);
-            this.ViewBag.Ficha = db.Ficha.FirstOrDefault(f => f.Id_Paciente == Id);
+            Ficha ficha = db.Ficha.FirstOrDefault(f => f.Id_Paciente == Id);
+            this.ViewBag.Ficha = ficha;
             return View(paciente);
         }
         
@@ -65,13 +72,19 @@ namespace SistemaDeTurnos.Controllers
             public ActionResult Create()
         {
             this.ViewBag.TituloPagina = "Agregar Paciente";
+            Ficha ficha = new Ficha();
+            ficha.Id_Paciente = 1;
+            db.Ficha.Add(ficha);
+            db.SaveChanges();
+            ficha = db.Ficha.FirstOrDefault(f => f.Id_Ficha == ficha.Id_Ficha);
+            this.ViewBag.Ficha = ficha;
             Paciente paciente = new Paciente();
             return View("Create", paciente);
         }
 
         // POST: Paciente/Create
         [HttpPost]
-        public ActionResult Create(Paciente paciente)
+        public ActionResult Create(Paciente paciente,int idFicha)
         {
             try
             {
@@ -87,12 +100,16 @@ namespace SistemaDeTurnos.Controllers
                 this.db.Paciente.Add(paciente);// lo agrego y guardo los cambios
                 this.db.SaveChanges();
                 // creo una nueva ficha a la cual voy a asignarle al paciente
-                Ficha nuevaFicha = new Ficha();
-                nuevaFicha.Id_Paciente = (int)this.db.Paciente.FirstOrDefault(p => p.Dni == paciente.Dni).Id_Paciente;
-                db.Ficha.Add(nuevaFicha);
+                int id = db.Paciente.FirstOrDefault(p => p.Dni == paciente.Dni).Id_Paciente;
+               // traigo la ficha creada anteriormente y le asigo el id del paciente
+                Ficha nuevaFicha = db.Ficha.FirstOrDefault(f => f.Id_Ficha == idFicha);
+                nuevaFicha.Id_Paciente = id;
+                this.db.Ficha.Attach(nuevaFicha);
+                this.db.Entry(nuevaFicha).State = System.Data.Entity.EntityState.Modified;
+                this.db.SaveChanges();
+           
                 db.SaveChanges();
-
-                return RedirectToAction("Details", nuevaFicha.Id_Paciente);
+                return View("Details", db.Paciente.FirstOrDefault(p => p.Id_Paciente == id));
             }
             catch
             {
@@ -106,6 +123,8 @@ namespace SistemaDeTurnos.Controllers
         {
             this.ViewBag.TituloPagina = "Editar Paciente";
             Paciente aEditar = db.Paciente.Find(Id);
+            Ficha ficha = db.Ficha.FirstOrDefault(f => f.Id_Paciente == Id);
+            this.ViewBag.Ficha = ficha;
             return View(aEditar);
         }
 
@@ -118,7 +137,7 @@ namespace SistemaDeTurnos.Controllers
                 this.db.Paciente.Attach(paciente);
                 this.db.Entry(paciente).State = System.Data.Entity.EntityState.Modified;
                 this.db.SaveChanges();
-                return RedirectToAction("Details",paciente.Id_Paciente);
+                return View("Details",paciente.Id_Paciente);
             }
             catch
             {
@@ -142,6 +161,27 @@ namespace SistemaDeTurnos.Controllers
             Ficha ficha = this.db.Ficha.FirstOrDefault(f => f.Id_Ficha == Id);
             return View(ficha);
         }
+        /*
+        private List<Paciente> normalizarLista(IQueryable<Paciente> lista)
+        {
+            List<Paciente> listaNormal = new List<Paciente>();
+            foreach (Paciente p in lista)
+            {
+                string NombreOriginal = p.Nombre;
+                string ApellidoOriginal = p.Apellido;
+                string NombreNormalizado = NombreOriginal.Normalize(NormalizationForm.FormD);
+                string ApellidoNormalizado = ApellidoOriginal.Normalize(NormalizationForm.FormD);
+
+                Regex reg = new Regex("[^a-zA-Z0-9 ]");
+                string nombreSinAcentos = reg.Replace(NombreNormalizado, "");
+                string apellidoSinAcentos = reg.Replace(ApellidoNormalizado, "");
+                p.Nombre = nombreSinAcentos;
+                p.Apellido = apellidoSinAcentos;
+                listaNormal.Add(p);
+            }
+
+            return listaNormal;
+        }*/
 
     }
 }

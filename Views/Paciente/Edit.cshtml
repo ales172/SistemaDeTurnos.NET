@@ -4,6 +4,21 @@
 @{
     ViewBag.Title = "Create";
 }
+@{
+    Ficha ficha = this.ViewBag.Ficha;
+    if (ficha.Antecedentes == null)
+    {
+        ficha.Antecedentes = "";
+    }
+    if (ficha.Contraindicaciones == null)
+    {
+        ficha.Contraindicaciones = "";
+    }
+    if (ficha.Diagnostico == null)
+    {
+        ficha.Diagnostico = "";
+    }
+}
 
 <!DOCTYPE html>
 <html>
@@ -24,11 +39,14 @@
                         </td>
                         <td>
                             <label>DNI (sin puntos)</label>
-                            <input class="form-control" type="text" name="Dni" value="@this.Model.Dni" pattern="[0-9]{8}" required />
+                            <input class="form-control" type="text" name="Dni" value="@this.Model.Dni" pattern="[0-9]{7-8}" required />
                         </td>
                         <td>
                             <label>Fecha de Nacimiento</label>
                             <input class="form-control" type="text" name="Fecha_Nac" onfocus="(this.type='date')" onblur="if(this.value==''){this.type='text'}" value="@this.Model.Fecha_Nac." required />
+                        </td>
+                        <td>
+                            <button type="button" class="form btn btn-sm" data-toggle="modal" data-target="#Ficha">Ver Ficha</button>
                         </td>
                     </tr>
                     <tr>
@@ -58,9 +76,59 @@
                     </tr>
                 </tbody>
             </table>
-
             <button class="btn">Enviar Datos</button>
         </form>
+
+        <!-- Modal -->
+        <div id="Ficha" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">@this.Model.Nombre @this.Model.Apellido</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label>Fecha de Ingreso</label>
+                                    <p>@ficha.Fecha_Ingreso</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Antecedentes</label>
+                                    <p>@ficha.Antecedentes</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Diagnostico</label>
+                                    <p>@ficha.Diagnostico</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Contraindicaciones</label>
+                                    <p>@ficha.Contraindicaciones</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        @Html.ActionLink("Editar    ", $"../Ficha/Edit", new { Id = ficha.Id_Ficha }, new
+                        {
+                            @class = "btn glyphicon glyphicon-edit",
+                            style = "font-size: 1.Sem"
+                        })
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </main>
 </body>
 </html>

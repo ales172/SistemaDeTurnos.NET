@@ -1,11 +1,8 @@
 ﻿@using SistemaDeTurnos.Models
-@model Paciente
+@model Medico
 
 @{
     ViewBag.Title = "Create";
-}
-@{ 
-    Ficha ficha = this.ViewBag.Ficha;
 }
 
 <!DOCTYPE html>
@@ -20,7 +17,7 @@
                     <tr style="padding-bottom: 15px; padding-top: 15px">
                         <td>
                             <label>Nombre</label>
-                            <input class="form-control" type="text" name="Nombre" value="@this.Model.Nombre" autofocus required />
+                            <input class="form-control" type="text" name="Nombre" value="@this.Model.Nombre" required />
                         </td>
                         <td>
                             <label>Apellido</label>
@@ -30,38 +27,23 @@
                             <label>DNI (sin puntos)</label>
                             <input class="form-control" type="text" name="Dni" value="@this.Model.Dni" pattern="[0-9]{7-8}" required />
                         </td>
-                        <td>
-                            <label>Fecha de Nacimiento</label>
-                            <input class="form-control" type="date" name="Fecha_Nac" value="@this.Model.Fecha_Nac" required />
-                        </td>
                     </tr>
                     <tr>
                         <td>
-                            <label>Dirección</label>
-                            <input class="form-control" type="text" name="Direccion" value="@this.Model.Direccion" required />
+                            <label>Matrícula</label>
+                            <input class="form-control" type="text" name="Matricula" value="@this.Model.Matricula" required />
                         </td>
                         <td>
                             <label>Teléfono</label>
                             <input class="form-control" type="text" name="Telefono" value="@this.Model.Telefono" required />
                         </td>
                         <td>
-                            <label>Teléfono de Contácto</label>
-                            <input class="form-control" type="text" name="Telefono_Contacto" value="@this.Model.Telefono_Contacto" required />
-                        </td>
-                        <td>
-                            <label>Obra Social</label>
-                            <input class="form-control" type="text" name="Obra_Social" value="@this.Model.Obra_Social" required />
-                        </td>
-                        <td>
-                            <label>Número de Obra Social</label>
-                            <input class="form-control" type="text" name="Numero_OS" value="@this.Model.Numero_OS" required />
-                        </td>
-                        <td>
-                            <input type="hidden" name="idFicha" value="@ficha.Id_Ficha" />
+                            <input type="hidden" name="Id_Medico" value="@this.Model.Id_Medico"/>
                         </td>
                     </tr>
                 </tbody>
             </table>
+
             <button class="btn">Enviar Datos</button>
         </form>
     </main>

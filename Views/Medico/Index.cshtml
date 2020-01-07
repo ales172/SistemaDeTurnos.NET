@@ -1,11 +1,5 @@
 ﻿@using SistemaDeTurnos.Models
-@model List<Paciente>
-
-@{
-    ViewBag.Title = "Index";
-}
-
-
+@model List<Medico>
 
 <!DOCTYPE html>
 
@@ -14,18 +8,18 @@
     <main>
         <div>
 
-            <p>Pacientes:</p>
-            <span style="z-index:0; color: #15004D" >@Html.ActionLink("Nuevo", "Create", "Paciente", null, new { @class = "glyphicon glyphicon-plus" })</span>
+            <p>Medicos:</p>
+            <span style="z-index:0; color: #15004D">@Html.ActionLink("Nuevo", "Create", "Medico", null, new { @class = "glyphicon glyphicon-plus" })</span>
             @using (Html.BeginForm())
             {
                 <table>
                     <thead>
-                        <tr>Buscar Paciente</tr>
+                        <tr>Buscar Medico</tr>
                     </thead>
                     <tbody style="color: #15004D">
                         <tr>
                             <td>
-                                <input name="aBuscar" type="text" class="form-control" autocomplete="off" />
+                                <input name="busquedaMedico" type="text" class="form-control" autocomplete="off" />
                             </td>
                             <td class="text-right">
                                 <button class="glyphicon glyphicon-search btnCrear"></button>
@@ -36,25 +30,19 @@
             }
             <table class="table-condensed table-hover table-responsive">
 
-                @foreach (Paciente paciente in this.Model)
+                @foreach (Medico medico in this.Model)
                 {
                     <tr>
-                        <td><a class="clickNombre" onclick="location.href='@Url.Action("Details", "Paciente",new { Id = paciente.Id_Paciente})'">@paciente.Apellido @paciente.Nombre</a></td>
+                        <td><a class="clickNombre" onclick="location.href='@Url.Action("Details", "Medico",new { Id = medico.Id_Medico})'">@medico.Apellido, @medico.Nombre</a></td>
                         <td></td>
                         <td class="text-left">
                             <div class="text-left">
-                                @Html.ActionLink(" ", $"Edit", new { Id = paciente.Id_Paciente }, new
+                                @Html.ActionLink(" ", $"Edit", new { Id = medico.Id_Medico }, new
                            {
                                @class = "glyphicon glyphicon-edit",
                                style = "font-size: 1.Sem"
                            })
 
-
-                                @Html.ActionLink(" ", "Delete", new { Id = paciente.Id_Paciente }, new
-                           {
-                               @class = "glyphicon glyphicon-trash",
-                               style = "font-size: 1.Sem"
-                           })
                             </div>
                         </td>
                     </tr>

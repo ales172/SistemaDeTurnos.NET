@@ -63,12 +63,13 @@ namespace SistemaDeTurnos.Controllers
                 this.db.Ficha.Attach(ficha);
                 this.db.Entry(ficha).State = System.Data.Entity.EntityState.Modified;
                 this.db.SaveChanges();
-       
+                this.ViewBag.Ficha = ficha;
+                
                 return RedirectToAction("Details","Paciente", ficha.Id_Paciente);
             }
             catch
             {
-                return View("Index","Paciente");
+                return View("../Paciente/Index");
             }
         }
 

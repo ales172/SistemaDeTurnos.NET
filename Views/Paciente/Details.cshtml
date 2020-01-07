@@ -5,13 +5,25 @@
     ViewBag.Title = "Details";
 }
 @{ 
-    Ficha ficha = this.ViewBag.Ficha;
+        Ficha ficha = this.ViewBag.Ficha;
+        if(ficha.Antecedentes == null)
+        {
+            ficha.Antecedentes = "";
+        }
+        if (ficha.Contraindicaciones == null)
+        {
+            ficha.Contraindicaciones = "";
+        }
+        if(ficha.Diagnostico == null)
+        {
+            ficha.Diagnostico = "";
+        }
 }
 
 <!DOCTYPE html>
-<html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<html>
 <body>
     <main>
         <h2>@this.ViewBag.TituloPagina</h2>
@@ -28,7 +40,7 @@
                 @class = "btn glyphicon glyphicon-trash",
                 style = "font-size: 1.Sem"
             })
-            <a href="/Paciente/Index" class="btn glyphicon glyphicon-menu-left" data-archivo="libros">Volver</a>
+            <a href="/Paciente/Index" class="btn glyphicon glyphicon-menu-left" >Volver</a>
 
         </div>
         <div>
@@ -54,7 +66,6 @@
                     </td>
 
                     <td>
-                       <!-- <span style="z-index:0; color: #15004D">@Html.ActionLink("Ver Ficha", "../Ficha/Details", "Ficha", new { Id = this.Model.Ficha })</span>-->
                         <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#Ficha">Ver Ficha</button>
 
                     </td>

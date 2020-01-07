@@ -230,10 +230,13 @@
     <Content Include="Views\Ficha\Details.cshtml" />
     <Content Include="Views\Ficha\Edit.cshtml" />
     <Content Include="Views\Paciente\Create.cshtml" />
+    <Content Include="Views\Medico\Index.cshtml" />
+    <Content Include="Views\Medico\Details.cshtml" />
+    <Content Include="Views\Medico\Create.cshtml" />
+    <Content Include="Views\Medico\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Medico\" />
     <Folder Include="Views\Turno\" />
   </ItemGroup>
   <ItemGroup>
