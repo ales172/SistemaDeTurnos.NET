@@ -4,32 +4,36 @@
 @{
     ViewBag.Title = "Details";
 }
+@{ 
+    Ficha ficha = this.ViewBag.Ficha;
+}
 
 <!DOCTYPE html>
 <html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <body>
     <main>
         <h2>@this.ViewBag.TituloPagina</h2>
         <div style="color: #713bff">
             @Html.ActionLink("Editar    ", $"Edit", new { Id = this.Model.Id_Paciente }, new
             {
-                @class = "glyphicon glyphicon-edit",
+                @class = "btn glyphicon glyphicon-edit",
                 style = "font-size: 1.Sem"
             })
 
 
             @Html.ActionLink("Borrar   ", "Delete", new { Id = this.Model.Id_Paciente }, new
             {
-                @class = "glyphicon glyphicon-trash",
+                @class = "btn glyphicon glyphicon-trash",
                 style = "font-size: 1.Sem"
             })
-            <a href="/Paciente/Index" class="glyphicon glyphicon-menu-left" data-archivo="libros">Volver</a>
+            <a href="/Paciente/Index" class="btn glyphicon glyphicon-menu-left" data-archivo="libros">Volver</a>
 
         </div>
         <div>
         </div>
-        Datos del Paciente:
-        <table class="text-left" id="tablaCrea">
+        <table class="table text-left" id="tablaCrea">
             <tbody>
                 <tr style="padding-bottom: 15px; padding-top: 15px">
                     <td>
@@ -47,6 +51,12 @@
                     <td>
                         <label>Fecha de Nacimiento</label>
                         <p>@this.Model.Fecha_Nac </p>
+                    </td>
+
+                    <td>
+                       <!-- <span style="z-index:0; color: #15004D">@Html.ActionLink("Ver Ficha", "../Ficha/Details", "Ficha", new { Id = this.Model.Ficha })</span>-->
+                        <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#Ficha">Ver Ficha</button>
+
                     </td>
                 </tr>
                 <tr>
@@ -73,6 +83,57 @@
                 </tr>
             </tbody>
         </table>
+
+        <!-- Modal -->
+        <div id="Ficha" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">@this.Model.Nombre @this.Model.Apellido</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label>Fecha de Ingreso</label>
+                                    <p>@ficha.Fecha_Ingreso</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Antecedentes</label>
+                                    <p>@ficha.Antecedentes</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Diagnostico</label>
+                                    <p>@ficha.Diagnostico</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Contraindicaciones</label>
+                                    <p>@ficha.Contraindicaciones</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        @Html.ActionLink("Editar    ", $"../Ficha/Edit", new { Id = ficha.Id_Ficha }, new
+                        {
+                            @class = "btn glyphicon glyphicon-edit",
+                            style = "font-size: 1.Sem"
+                        })
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </main>
 </body>
 </html>

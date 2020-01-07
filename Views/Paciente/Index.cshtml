@@ -18,7 +18,7 @@
             <span style="z-index:0; color: #15004D" >@Html.ActionLink("Nuevo", "Create", "Paciente", null, new { @class = "glyphicon glyphicon-plus" })</span>
             @using (Html.BeginForm())
             {
-                <table class="table">
+                <table>
                     <thead>
                         <tr>Buscar Paciente</tr>
                     </thead>
@@ -34,15 +34,15 @@
                     </tbody>
                 </table>
             }
-            <table>
+            <table class="table-condensed table-hover table-responsive">
 
                 @foreach (Paciente paciente in this.Model)
                 {
                     <tr>
                         <td><a class="clickNombre" onclick="location.href='@Url.Action("Details", "Paciente",new { Id = paciente.Id_Paciente})'">@paciente.Apellido @paciente.Nombre</a></td>
-
-                        <td class="text-center">
-                            <div class="text-right">
+                        <td></td>
+                        <td class="text-left">
+                            <div class="text-left">
                                 @Html.ActionLink(" ", $"Edit", new { Id = paciente.Id_Paciente }, new
                            {
                                @class = "glyphicon glyphicon-edit",

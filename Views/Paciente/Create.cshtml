@@ -10,51 +10,50 @@
 <body>
     <main>
         <form method="post">
-            <p>Datos del Paciente:</p>
+            <h2>@this.ViewBag.TituloPagina</h2>
+            Datos del Paciente:
             <table class="text-left" id="tablaCrea">
-                <tbody style="padding-bottom: 15px">
+                <tbody>
                     <tr style="padding-bottom: 15px; padding-top: 15px">
                         <td>
                             <label>Nombre</label>
-                            <input class="form-control" type="text" name="Nombre" value="@this.Model.Nombre" required />
+                            <input type="text" name="Nombre" value="@this.Model.Nombre" required />
                         </td>
                         <td>
                             <label>Apellido</label>
-                            <input class="form-control" type="text" name="Apellido" value="@this.Model.Apellido" required />
+                            <input type="text" name="Apellido" value="@this.Model.Apellido" required />
                         </td>
                         <td>
                             <label>DNI (sin puntos)</label>
-                            <input class="form-control" type="text" name="Dni" value="@this.Model.Dni" pattern="[0-9]{8}" required />
+                            <input type="text" name="Dni" value="@this.Model.Dni" pattern="[0-9]{8}" required />
                         </td>
                         <td>
                             <label>Fecha de Nacimiento</label>
-                            <input class="form-control" type="text" name="Fecha_Nac" onfocus="(this.type='date')" onblur="if(this.value==''){this.type='text'}" value="@this.Model.Fecha_Nac." required />
+                            <input type="date" name="Fecha_Nac" value="@this.Model.Fecha_Nac" required />
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <label>Dirección</label>
-                            <input class="form-control" type="text" name="Direccion" value="@this.Model.Direccion" required />
+                            <input type="text" name="Direccion" value="@this.Model.Direccion" required />
                         </td>
                         <td>
                             <label>Teléfono</label>
-                            <input class="form-control" type="text" name="Telefono" value="@this.Model.Telefono" required />
+                            <input type="text" name="Telefono" value="@this.Model.Telefono" required />
                         </td>
                         <td>
                             <label>Teléfono de Contácto</label>
-                            <input class="form-control" type="text" name="Telefono_Contacto" value="@this.Model.Telefono_Contacto" required />
+                            <input type="text" name="Telefono_Contacto" value="@this.Model.Telefono_Contacto" required />
                         </td>
                         <td>
                             <label>Obra Social</label>
-                            <input class="form-control" type="text" name="Obra_Social" value="@this.Model.Obra_Social" required />
+                            <input type="text" name="Obra_Social" value="@this.Model.Obra_Social" required />
                         </td>
                         <td>
                             <label>Número de Obra Social</label>
-                            <input class="form-control" type="text" name="Numero_OS" value="@this.Model.Numero_OS" required />
+                            <input type="text" name="Numero_OS" value="@this.Model.Numero_OS" required />
                         </td>
-                        <td>
-                            <input class="form-control" type="hidden" name="Id_Paciente" value="@this.Model.Id_Paciente" />
-                        </td>
+                        
                     </tr>
                 </tbody>
             </table>

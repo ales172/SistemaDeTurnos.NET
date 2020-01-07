@@ -13,7 +13,7 @@ namespace SistemaDeTurnos.Controllers
         // GET: Paciente
         public ActionResult Index()
         {
-            List<Paciente> listadoPacientes = db.Paciente.OrderBy(p => p.Apellido).ToList();
+            List<Paciente> listadoPacientes = this.db.Paciente.OrderBy(p => p.Apellido).ToList();
             return View("Index",listadoPacientes);
         }
         [HttpPost]
@@ -57,20 +57,16 @@ namespace SistemaDeTurnos.Controllers
         public ActionResult Details(int Id)
         {
             Paciente paciente = db.Paciente.Find(Id);
+            this.ViewBag.Ficha = db.Ficha.FirstOrDefault(f => f.Id_Paciente == Id);
             return View(paciente);
         }
-        /*
-        public ActionResult Details(Paciente paciente)
-        {
-            return View();
-        }*/
-
+        
             // GET: Paciente/Create
             public ActionResult Create()
         {
             this.ViewBag.TituloPagina = "Agregar Paciente";
             Paciente paciente = new Paciente();
-            return View("Edit", paciente);
+            return View("Create", paciente);
         }
 
         // POST: Paciente/Create
@@ -88,20 +84,20 @@ namespace SistemaDeTurnos.Controllers
                 {
                     return Content("No puedo insertar los datos, faltan datos");
                 }
-                paciente.Id_Paciente = db.Paciente.Count();//Asigno el ultimo id de paciente
-                db.Paciente.Add(paciente);// lo agrego y guardo los cambios
-                db.SaveChanges();
+                this.db.Paciente.Add(paciente);// lo agrego y guardo los cambios
+                this.db.SaveChanges();
                 // creo una nueva ficha a la cual voy a asignarle al paciente
                 Ficha nuevaFicha = new Ficha();
-                nuevaFicha.Id_Paciente = paciente.Id_Paciente;
+                nuevaFicha.Id_Paciente = (int)this.db.Paciente.FirstOrDefault(p => p.Dni == paciente.Dni).Id_Paciente;
                 db.Ficha.Add(nuevaFicha);
                 db.SaveChanges();
 
-                return RedirectToAction("Edit", paciente.Id_Paciente);
+                return RedirectToAction("Details", nuevaFicha.Id_Paciente);
             }
             catch
             {
-                return View();
+                List<Paciente> pacientes = this.db.Paciente.OrderBy(p => p.Apellido).ToList();
+                return View("Index", pacientes);
             }
         }
 
@@ -122,11 +118,11 @@ namespace SistemaDeTurnos.Controllers
                 this.db.Paciente.Attach(paciente);
                 this.db.Entry(paciente).State = System.Data.Entity.EntityState.Modified;
                 this.db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details",paciente.Id_Paciente);
             }
             catch
             {
-                return View();
+                return View("Index");
             }
         }
 
@@ -134,14 +130,17 @@ namespace SistemaDeTurnos.Controllers
         public ActionResult Delete(int Id)
         {
             Paciente paciente = this.db.Paciente.FirstOrDefault(p => p.Id_Paciente == Id);
-            foreach(Ficha ficha in paciente.Ficha.ToList())
-            {
+            Ficha ficha = this.db.Ficha.FirstOrDefault(f => f.Id_Paciente == paciente.Id_Paciente);
             this.db.Ficha.Remove(ficha);
-
-            }
             this.db.Paciente.Remove(paciente);
             this.db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult verFicha(int Id)
+        {
+            Ficha ficha = this.db.Ficha.FirstOrDefault(f => f.Id_Ficha == Id);
+            return View(ficha);
         }
 
     }

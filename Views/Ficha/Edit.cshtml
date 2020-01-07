@@ -1,0 +1,44 @@
+﻿@using SistemaDeTurnos.Models
+@model Ficha
+
+@{ 
+    Paciente paciente = this.ViewBag.Paciente;
+}
+<!DOCTYPE html>
+<html>
+<body>
+    <main>
+        <form method="post" id="FichaForm">
+            <p>@paciente.Nombre @paciente.Apellido</p>
+            <table class="text-left" id="tablaCrea">
+                <tbody>
+                    <tr style="padding-bottom: 15px; padding-top: 15px">
+                        <td>
+                            <label>Fecha de Ingreso</label>
+                            <input class="form-control" type="text" name="Fecha_Ingreso" onfocus="(this.type='date')" onblur="if(this.value==''){this.type='text'}" value="@this.Model.Fecha_Ingreso." required />
+                        </td>
+                    </tr>
+                <td>
+                    <input type="hidden" name="Id_Paciente" value="@this.Model.Id_Paciente" />
+                    <input type="hidden" name="Id_Ficha" value="@this.Model.Id_Ficha" />
+
+                </td>
+                    </tr>
+                </tbody>
+            </table>
+                        
+            <label>Antecedentes</label>
+            <textarea class="form-control" form="FichaForm" name="Antecedentes" required>@this.Model.Antecedentes</textarea>
+                        
+                        
+            <label>Contraindicaciones</label>
+            <textarea class="form-control" form="FichaForm" name="Contraindicaciones" required>@this.Model.Contraindicaciones</textarea>
+                        
+            <label>Diagnóstico</label>
+            <textarea class="form-control" form="FichaForm" name="Diagnostico" required>@this.Model.Diagnostico</textarea>
+                        
+            <button class="btn">Enviar Datos</button>
+        </form>
+    </main>
+</body>
+</html>
