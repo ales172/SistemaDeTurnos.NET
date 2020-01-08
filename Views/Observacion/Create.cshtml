@@ -1,0 +1,57 @@
+﻿@using SistemaDeTurnos.Models
+@model Observacion
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<!DOCTYPE html>
+<html>
+<body>
+    <main>
+        <form method="post">
+            Observación para @this.ViewBag.Paciente.Apellido, @this.ViewBag.Paciente.Nombre
+            <table class="text-left" id="tablaCrea">
+                <tbody>
+                    <tr style="padding-bottom: 15px; padding-top: 15px">
+                        <td>
+                            <div class="form-group">
+                                <select class="custom-select" name="Id_Medico">
+                                    <option selected="">Observado por:</option>
+                                    @foreach (Medico m in this.ViewBag.Medicos)
+                                    {
+                                        <option value="@m.Id_Medico">@m.Apellido, @m.Nombre</option>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <label>Fecha de la Observación</label>
+                            <input class="form-control" type="date" name="Fecha" required />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Observacion:</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                           <!-- <input class="form-control" type="text" name="Detalle" value="@this.Model.Detalle" required /> -->
+                            <textarea name="Detalle" value="@this.Model.Detalle" rows="10" cols="40"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="form-control" type="hidden" name="Id_Paciente" value="@this.ViewBag.Paciente.Id_Paciente" />
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button class="btn">Enviar Datos</button>
+        </form>
+    </main>
+</body>
+</html>

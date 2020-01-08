@@ -64,7 +64,15 @@ namespace SistemaDeTurnos.Controllers
         {
             Paciente paciente = db.Paciente.Find(Id);
             Ficha ficha = db.Ficha.FirstOrDefault(f => f.Id_Paciente == Id);
+            List<Observacion> observaciones = db.Observacion.Where(o => o.Id_Paciente == Id).OrderBy(o => o.Fecha).ToList();
+            List<Tratamiento> tratamientos = db.Tratamiento.Where(t => t.Id_Paciente == Id).OrderBy(t => t.Fecha).ToList();
+            List<Turno> turnos = db.Turno.Where(t => t.Id_Paciente == Id).OrderBy(t => t.Fecha).ToList();
+            List<Medico> medicos = db.Medico.ToList();
             this.ViewBag.Ficha = ficha;
+            this.ViewBag.Observaciones = observaciones;
+            this.ViewBag.Tratamientos = tratamientos;
+            this.ViewBag.Turnos = turnos;
+            this.ViewBag.Medicos = medicos;
             return View(paciente);
         }
         
@@ -107,7 +115,7 @@ namespace SistemaDeTurnos.Controllers
                 this.db.Ficha.Attach(nuevaFicha);
                 this.db.Entry(nuevaFicha).State = System.Data.Entity.EntityState.Modified;
                 this.db.SaveChanges();
-           
+                this.ViewBag.Ficha = nuevaFicha;
                 db.SaveChanges();
                 return View("Details", db.Paciente.FirstOrDefault(p => p.Id_Paciente == id));
             }

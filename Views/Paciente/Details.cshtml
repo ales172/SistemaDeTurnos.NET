@@ -6,7 +6,7 @@
 }
 @{ 
         Ficha ficha = this.ViewBag.Ficha;
-        if(ficha.Antecedentes == null)
+       /* if(ficha.Antecedentes == null)
         {
             ficha.Antecedentes = "";
         }
@@ -17,7 +17,7 @@
         if(ficha.Diagnostico == null)
         {
             ficha.Diagnostico = "";
-        }
+        }*/
 }
 
 <!DOCTYPE html>
@@ -40,7 +40,7 @@
                 @class = "btn glyphicon glyphicon-trash",
                 style = "font-size: 1.Sem"
             })
-            <a href="/Paciente/Index" class="btn glyphicon glyphicon-menu-left" >Volver</a>
+            <a href="/Paciente/Index" class="btn glyphicon glyphicon-menu-left">Volver</a>
 
         </div>
         <div>
@@ -61,13 +61,16 @@
                         <p> @this.Model.Dni </p>
                     </td>
                     <td>
+                        @{ 
+                            DateTime faux = (DateTime)this.Model.Fecha_Nac;
+                            string fechaNac = faux.ToString("dd/MM/yyyy"); 
+                         }
                         <label>Fecha de Nacimiento</label>
-                        <p>@this.Model.Fecha_Nac </p>
+                        <p>@fechaNac</p>
                     </td>
 
                     <td>
-                        <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#Ficha">Ver Ficha</button>
-
+                        <button type="button" class="btn" data-toggle="modal" data-target="#Ficha">Ver Ficha</button>
                     </td>
                 </tr>
                 <tr>
@@ -92,10 +95,24 @@
                         <p>@this.Model.Numero_OS</p>
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        <button type="button" class="btn" data-toggle="modal" data-target="#Observaciones">Observaciones</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn" data-toggle="modal" data-target="#Tratamientos">Tratamientos</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn" data-toggle="modal" data-target="#Turnos">Ver Turnos</button>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
             </tbody>
         </table>
 
-        <!-- Modal -->
+        <!-- Modals -->
+        <!--Modal Ficha-->
         <div id="Ficha" class="modal fade" role="dialog">
             <div class="modal-dialog">
 
@@ -139,6 +156,196 @@
                             @class = "btn glyphicon glyphicon-edit",
                             style = "font-size: 1.Sem"
                         })
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Modal Observaciones -->
+        <div id="Observaciones" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">@this.Model.Nombre @this.Model.Apellido</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h3>Observaciones</h3>
+                        <table>
+                            @if (this.ViewBag.Observaciones != null)
+                            {
+                                foreach (Observacion o in this.ViewBag.Observaciones)
+                                {                                    
+                                    DateTime f = (DateTime)o.Fecha;
+                                    string fecha = f.ToString("dd/MM/yyyy");
+                                    
+                                    Medico maux = new Medico();
+                                    foreach (Medico m in this.ViewBag.Medicos)
+                                    {
+                                        if (m.Id_Medico == o.Id_Medico)
+                                        {
+                                            maux = m;
+                                        }
+                                    }
+                                    <tr>
+                                        <td>
+                                            <p>Fecha de la observación: @fecha</p>
+                                            <blockquote class="blockquote text-center">
+                                                <p class="mb-0">@o.Detalle</p>
+                                                <p class="blockquote-footer">Observado por <cite title="Source Title">@maux.Apellido, @maux.Nombre</cite></p>
+                                            </blockquote>
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Editar    ", $"../Observacion/Edit", new { Id = o.Id_Observacion }, new
+                                            {
+                                                @class = "btn glyphicon glyphicon-edit",
+                                                style = "font-size: 1.Sem"
+                                            })
+                                        </td>
+                                    </tr>
+                                }
+                            }else
+                            {
+                                <tr>
+                                    <td>
+                                        <h3>No se registran Observaciones</h3>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        @Html.ActionLink("Agregar    ", $"../Observacion/Create/", new { idPaciente = this.Model.Id_Paciente }, new
+                                            {
+                                                @class = "btn btn-default"
+                                            })
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Modal Tratamientos -->
+        <div id="Tratamientos" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">@this.Model.Nombre @this.Model.Apellido</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label>Tratamientos</label>
+                        <table>
+                            @if (this.ViewBag.Tratamientos != null)
+                            {
+                                foreach (Tratamiento t in this.ViewBag.Tratamientos)
+                                {
+                                    int i = 1;
+                                    Medico maux = new Medico();
+                                    foreach (Medico m in this.ViewBag.Medicos)
+                                    {
+                                        if (m.Id_Medico == t.Id_Medico)
+                                        {
+                                            maux = m;
+                                        }
+                                    }
+                                    <tr>
+                                        <td>
+                                            <h3>Tratamiento @{i++;}:</h3>
+                                            <blockquote class="blockquote text-center">
+                                                <p class="mb-0">@t</p>
+                                                <footer class="blockquote-footer">Tratamiento dictado por <cite title="Source Title">@maux.Apellido, @maux.Nombre</cite></footer>
+                                            </blockquote>
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Editar    ", $"../Tratamiento/Edit", new { Id = t.Id_Tratamiento }, new
+                                            {
+                                                @class = "btn glyphicon glyphicon-edit",
+                                                style = "font-size: 1.Sem"
+                                            })
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>
+                                        <h3>No se registran Tratamientos</h3>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" onclick="location.href='/../Tratamiento/Create'">Agregar Tratamiento</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Modal Turnos -->
+        <div id="Turnos" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">@this.Model.Nombre @this.Model.Apellido</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label>Turnos</label>
+                        <table>
+                            @if (this.ViewBag.Turnos != null)
+                            {
+                                foreach (Turno t in this.ViewBag.Turnos)
+                                {
+                                    int i = 1;
+                                    Medico maux = new Medico();
+                                    foreach (Medico m in this.ViewBag.Medicos)
+                                    {
+                                        if (m.Id_Medico == t.Id_Medico)
+                                        {
+                                            maux = m;
+                                        }
+                                    }
+                                    <tr>
+                                        <td>
+                                            <h3>Turnos @{i++;}:</h3>
+                                            <blockquote class="blockquote text-center">
+                                                <p class="mb-0">Día: @t.Fecha.Date</p>
+                                                <p>Hora: @t.Inicio.Hours</p>
+                                                <p>Asignado a @maux.Apellido, @maux.Nombre</p>
+                                            </blockquote>
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Editar    ", $"../Turno/Edit", new { Id = t.Id_Turno }, new
+                                            {
+                                                @class = "btn glyphicon glyphicon-edit",
+                                                style = "font-size: 1.Sem"
+                                            })
+                                        </td>
+                                    </tr>
+                                }
+                            }else
+                            {
+                                <tr>
+                                    <td>
+                                        <h3>No se registran Turnos</h3>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" onclick="location.href='/../Turno/Create'">Agregar Turno</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>

@@ -14,7 +14,13 @@ namespace SistemaDeTurnos.Models
     
     public partial class Ficha
     {
-
+        public Ficha()
+        {
+            this.Antecedentes = "";
+            this.Contraindicaciones = "";
+            this.Diagnostico = "";
+            this.Fecha_Ingreso = DateTime.Now.Date;
+        }
         public int Id_Ficha { get; set; }
         public int Id_Paciente { get; set; }
         public Nullable<System.DateTime> Fecha_Ingreso { get; set; }

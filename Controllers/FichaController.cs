@@ -64,8 +64,8 @@ namespace SistemaDeTurnos.Controllers
                 this.db.Entry(ficha).State = System.Data.Entity.EntityState.Modified;
                 this.db.SaveChanges();
                 this.ViewBag.Ficha = ficha;
-                
-                return RedirectToAction("Details","Paciente", ficha.Id_Paciente);
+                Paciente paciente = db.Paciente.Find(ficha.Id_Paciente);
+                return RedirectToAction($"../Paciente/Details/{paciente.Id_Paciente}");
             }
             catch
             {
