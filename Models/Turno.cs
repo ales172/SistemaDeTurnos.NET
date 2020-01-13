@@ -23,5 +23,12 @@ namespace SistemaDeTurnos.Models
     
         public virtual Medico Medico { get; set; }
         public virtual Paciente Paciente { get; set; }
+
+        public Turno()
+        {
+            this.Fecha = DateTime.Now.Date;
+            this.Inicio = new TimeSpan(12, 0, 0);
+            this.Fin = this.Inicio.Add(new TimeSpan(1, 0, 0));
+        }
     }
 }

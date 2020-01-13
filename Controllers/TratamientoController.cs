@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SistemaDeTurnos.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,8 @@ namespace SistemaDeTurnos.Controllers
 {
     public class TratamientoController : Controller
     {
+        SystemaDeTurnosEntities db = new SystemaDeTurnosEntities();
+
         // GET: Tratamiento
         public ActionResult Index()
         {
@@ -15,52 +18,64 @@ namespace SistemaDeTurnos.Controllers
         }
 
         // GET: Tratamiento/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int Id)
         {
             return View();
         }
 
         // GET: Tratamiento/Create
-        public ActionResult Create()
+        public ActionResult Create(int idPaciente)
         {
-            return View();
+            Tratamiento tratamiento = new Tratamiento();
+            tratamiento.Id_Paciente = idPaciente;
+            this.ViewBag.Paciente = db.Paciente.Find(idPaciente);
+            this.ViewBag.Medicos = db.Medico.OrderBy(m => m.Apellido).ToList();
+            return View(tratamiento);
         }
 
         // POST: Tratamiento/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Tratamiento tratamiento)
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                this.db.Tratamiento.Add(tratamiento);
+                this.db.SaveChanges();
+                this.ViewBag.Ficha = db.Ficha.FirstOrDefault(f => f.Id_Paciente == tratamiento.Id_Paciente);
+                return RedirectToAction($"../Paciente/Details/{tratamiento.Id_Paciente}");
             }
             catch
             {
-                return View();
+                return View("../Paciente/Index", this.db.Paciente.OrderBy(p => p.Apellido).ToList());
             }
         }
 
         // GET: Tratamiento/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int Id)
         {
-            return View();
+            Tratamiento tratamiento = this.db.Tratamiento.Find(Id);
+            this.ViewBag.Paciente = this.db.Paciente.Find(tratamiento.Id_Paciente);
+            this.ViewBag.Medicos = this.db.Medico.OrderBy(m => m.Apellido).ToList();
+            return View(tratamiento);
         }
 
         // POST: Tratamiento/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Tratamiento tratamiento)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                this.db.Tratamiento.Attach(tratamiento);
+                this.db.Entry(tratamiento).State = System.Data.Entity.EntityState.Modified;
+                this.db.SaveChanges();
+                Paciente paciente = db.Paciente.Find(tratamiento.Id_Paciente);
+                this.ViewBag.Paciente = paciente;
+                this.ViewBag.Ficha = this.db.Ficha.FirstOrDefault(f => f.Id_Paciente == tratamiento.Id_Paciente);
+                return RedirectToAction($"../Paciente/Details/{paciente.Id_Paciente}");
             }
             catch
             {
-                return View();
+                return RedirectToAction("../Paciente/Index", this.db.Paciente.OrderBy(p => p.Apellido).ToList());
             }
         }
 

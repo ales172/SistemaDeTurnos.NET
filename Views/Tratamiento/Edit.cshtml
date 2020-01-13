@@ -1,5 +1,5 @@
 ﻿@using SistemaDeTurnos.Models
-@model Observacion
+@model Tratamiento
 
 @{
     ViewBag.Title = "Create";
@@ -10,14 +10,14 @@
 <body>
     <main>
         <form method="post">
-            Observación para @this.ViewBag.Paciente.Apellido, @this.ViewBag.Paciente.Nombre
+            Tratamiento para @this.ViewBag.Paciente.Apellido, @this.ViewBag.Paciente.Nombre
             <table class="text-left" id="tablaCrea">
                 <tbody>
                     <tr style="padding-bottom: 15px; padding-top: 15px">
                         <td>
                             <div class="form-group">
                                 <select class="custom-select" name="Id_Medico">
-                                    <option>Observado por:</option>
+                                    <option>Tratamiento dictado por:</option>
                                     @foreach (Medico m in this.ViewBag.Medicos)
                                     {
                                         if (m.Id_Medico == this.Model.Id_Medico)
@@ -33,17 +33,26 @@
                             </div>
                         </td>
                         <td>
-                            @{ 
-                                DateTime f = (DateTime)this.Model.Fecha;
-                                    string fecha = f.ToString("dd/MM/yyyy");
+                            @{
+                                string fecha;
+                                if (this.Model.Fecha != null)
+                                {
+                                    DateTime f = (DateTime)this.Model.Fecha;
+                                    fecha = f.ToString("dd/MM/yyyy");
+                                }
+                                else
+                                {
+                                    DateTime f = DateTime.Now;
+                                    fecha = f.ToString("dd/MM/yyyy");
+                                }
                             }
-                            <label>Fecha de la Observación</label>
-                            <input class="form-control" type="text" name="Fecha" onfocus="(this.type='date')" onblur="if(this.value==''){this.type='text'}" value="@fecha"required />
+                            <label>Fecha del Tratamiento</label>
+                            <input class="form-control" type="text" name="Fecha" onfocus="(this.type='date')" onblur="if(this.value==''){this.type='text'}" value="@fecha" required />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label>Observacion:</label>
+                            <label>Tratamiento:</label>
                         </td>
                     </tr>
                     <tr>
@@ -54,7 +63,7 @@
                     <tr>
                         <td>
                             <input class="form-control" type="hidden" name="Id_Paciente" value="@this.ViewBag.Paciente.Id_Paciente" />
-                            <input class="form-control" type="hidden" name="Id_Observacion" value="@this.Model.Id_Observacion" />
+                            <input class="form-control" type="hidden" name="Id_Tratamiento" value="@this.Model.Id_Tratamiento" />
 
                         </td>
                     </tr>

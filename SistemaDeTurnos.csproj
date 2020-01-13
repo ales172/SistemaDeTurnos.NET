@@ -238,11 +238,14 @@
     <Content Include="Views\Medico\Edit.cshtml" />
     <Content Include="Views\Observacion\Create.cshtml" />
     <Content Include="Views\Observacion\Edit.cshtml" />
+    <Content Include="Views\Tratamiento\Create.cshtml" />
+    <Content Include="Views\Tratamiento\Edit.cshtml" />
+    <Content Include="Views\Turno\Index.cshtml" />
+    <Content Include="Views\Turno\Create.cshtml" />
+    <Content Include="Views\Turno\CreateFromPaciente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Tratamiento\" />
-    <Folder Include="Views\Turno\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

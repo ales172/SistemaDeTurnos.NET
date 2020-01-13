@@ -42,8 +42,12 @@
                             <input class="form-control" type="text" name="Dni" value="@this.Model.Dni" pattern="[0-9]{7-8}" required />
                         </td>
                         <td>
+                            @{ 
+                                DateTime f = (DateTime)this.Model.Fecha_Nac;
+                                string fechaNac = f.ToString("dd/MM/yyyy");
+                            }
                             <label>Fecha de Nacimiento</label>
-                            <input class="form-control" type="text" name="Fecha_Nac" onfocus="(this.type='date')" onblur="if(this.value==''){this.type='text'}" value="@this.Model.Fecha_Nac." required />
+                            <input class="form-control" type="text" name="Fecha_Nac" onfocus="(this.type='date')" onblur="if(this.value==''){this.type='text'}" value="@fechaNac" required />
                         </td>
                         <td>
                             <button type="button" class="form btn btn-sm" data-toggle="modal" data-target="#Ficha">Ver Ficha</button>
@@ -93,8 +97,12 @@
                         <table>
                             <tr>
                                 <td>
+                                    @{ 
+                                        DateTime faux = (DateTime)ficha.Fecha_Ingreso;
+                                        string fechaIng = faux.ToString("dd/MM/yyyy");
+                                    }
                                     <label>Fecha de Ingreso</label>
-                                    <p>@ficha.Fecha_Ingreso</p>
+                                    <p>@fechaIng</p>
                                 </td>
                             </tr>
                             <tr>

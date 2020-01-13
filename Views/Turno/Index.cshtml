@@ -1,0 +1,60 @@
+﻿@using SistemaDeTurnos.Models
+@model List<Turno>
+
+<!DOCTYPE html>
+
+<html>
+<body>
+    <main>
+        <div>
+
+            <p>Turnos:</p>
+            <span style="z-index:0; color: #15004D">@Html.ActionLink("Nuevo", "Create", "Turno", null, new { @class = "glyphicon glyphicon-plus" })</span>
+            
+            <table class="table-condensed table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Paciente</th>
+                        <th>Profesional</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Turno turno in this.Model)
+                    {
+                        <tr>
+                            @{
+                                Paciente paciente = new Paciente();
+                                Medico medico = new Medico();
+                                foreach (Paciente p in this.ViewBag.Pacientes)
+                                {
+                                    if (p.Id_Paciente == turno.Id_Paciente) { paciente = p; }
+                                }
+                                foreach (Medico m in this.ViewBag.Medicos)
+                                {
+                                    if (m.Id_Medico == turno.Id_Medico) { medico = m; }
+                                }
+                            }
+                            <td>@turno.Fecha</td>
+                            <td>@turno.Inicio</td>
+                            <td><a class="clickNombre" onclick="location.href='@Url.Action("Details", "Paciente",new { Id = paciente.Id_Paciente})'">@paciente.Apellido @paciente.Nombre</a></td>
+                            <td>@medico.Apellido, @medico.Nombre</td>
+                            <td class="text-left">
+                                <div class="text-left">
+                                    @Html.ActionLink(" ", $"Edit", new { Id = turno.Id_Turno }, new
+                               {
+                                   @class = "glyphicon glyphicon-edit",
+                                   style = "font-size: 1.Sem"
+                               })
+
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+</html>

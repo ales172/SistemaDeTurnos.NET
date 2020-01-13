@@ -68,13 +68,14 @@ namespace SistemaDeTurnos.Controllers
                 this.db.Observacion.Attach(observacion);
                 this.db.Entry(observacion).State = System.Data.Entity.EntityState.Modified;
                 this.db.SaveChanges();
-                this.ViewBag.Ficha = this.db.Ficha.FirstOrDefault(f => f.Id_Paciente == observacion.Id_Paciente);
                 Paciente paciente = db.Paciente.Find(observacion.Id_Paciente);
+                this.ViewBag.Paciente = paciente;
+                this.ViewBag.Ficha = this.db.Ficha.FirstOrDefault(f => f.Id_Paciente == observacion.Id_Paciente);
                 return RedirectToAction($"../Paciente/Details/{paciente.Id_Paciente}");
             }
             catch
             {
-                return View();
+                return RedirectToAction("../Paciente/Index", this.db.Paciente.OrderBy(p => p.Apellido).ToList());
             }
         }
 

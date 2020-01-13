@@ -1,0 +1,59 @@
+﻿@using SistemaDeTurnos.Models
+@model Turno
+
+@{
+    ViewBag.Title = "CreateFromPaciente";
+}
+
+<!DOCTYPE html>
+<html>
+<body>
+    <main>
+        <form method="post">
+            <table class="text-left" id="tablaCrea">
+                <tbody>
+                    <tr><td><p>Turno para <b><i>@this.ViewBag.Paciente.Apellido, @this.ViewBag.Paciente.Nombre</i></b></p></td></tr>
+                    <tr style="padding-bottom: 15px">
+                        <td style="padding-bottom: 15px">
+                            <label>Fecha del Turno</label>
+                            <input class="form-control" type="date" style="padding-bottom: 15px" name="Fecha" required />
+                        </td>
+                    </tr>
+
+                    <tr style="padding-bottom: 15px; padding-top: 15px">
+                        <td>
+                            <div class="form-group">
+                                <select class="form-control custom-select" name="Id_Medico">
+                                    <option selected="">Asignar turno a:</option>
+                                    @foreach (Medico m in this.ViewBag.Medicos)
+                                    {
+                                        <option value="@m.Id_Medico">@m.Apellido, @m.Nombre</option>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <select class="form-control custom-select" name="Inicio">
+                                    <option selected="">Horario:</option>
+                                    @for (int i = 8; i < 21; i++)
+                                    {
+                                        TimeSpan enPunto = new TimeSpan(i, 0, 0);
+                                        TimeSpan yMedia = enPunto.Add(new TimeSpan(0, 30, 0));
+                                        <option value="@enPunto">@enPunto</option>
+                                        <option value="@yMedia">@yMedia</option>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <input type="hidden" name="Id_Paciente" value="@this.ViewBag.Paciente.Id_Paciente"/>
+            <button class="btn">Enviar Datos</button>
+        </form>
+    </main>
+</body>
+</html>

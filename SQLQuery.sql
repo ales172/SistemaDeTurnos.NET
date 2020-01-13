@@ -80,7 +80,9 @@ CREATE TABLE Turno
 	Id_Turno INT PRIMARY KEY IDENTITY(1,1),
 	Id_Paciente INT NOT NULL,
 	Id_Medico INT NOT NULL,
-	Fecha DATE
+	Fecha DATE NOT NULL,
+	Inicio TIME NOT NULL,
+	Fin TIME NOT NULL
 	CONSTRAINT FK_Turno_Paciente
 		FOREIGN KEY (Id_Paciente) 
 		REFERENCES Paciente(Id_Paciente),

@@ -27,20 +27,15 @@
 <body>
     <main>
         <h2>@this.ViewBag.TituloPagina</h2>
-        <div style="color: #713bff">
+        <div style="padding-left: 15px; padding-bottom:5px; color: #713bff">
             @Html.ActionLink("Editar    ", $"Edit", new { Id = this.Model.Id_Paciente }, new
             {
-                @class = "btn glyphicon glyphicon-edit",
+                @class = "btn-link glyphicon glyphicon-edit",
                 style = "font-size: 1.Sem"
             })
 
-
-            @Html.ActionLink("Borrar   ", "Delete", new { Id = this.Model.Id_Paciente }, new
-            {
-                @class = "btn glyphicon glyphicon-trash",
-                style = "font-size: 1.Sem"
-            })
-            <a href="/Paciente/Index" class="btn glyphicon glyphicon-menu-left">Volver</a>
+            <button type="button" class="btn-link glyphicon glyphicon-trash" data-toggle="modal" data-target="#BorraPaciente">Borrar</button>
+            <a href="/Paciente/Index" class="btn-link glyphicon glyphicon-menu-left">Volver</a>
 
         </div>
         <div>
@@ -61,10 +56,10 @@
                         <p> @this.Model.Dni </p>
                     </td>
                     <td>
-                        @{ 
+                        @{
                             DateTime faux = (DateTime)this.Model.Fecha_Nac;
-                            string fechaNac = faux.ToString("dd/MM/yyyy"); 
-                         }
+                            string fechaNac = faux.ToString("dd/MM/yyyy");
+                        }
                         <label>Fecha de Nacimiento</label>
                         <p>@fechaNac</p>
                     </td>
@@ -97,13 +92,13 @@
                 </tr>
                 <tr>
                     <td>
-                        <button type="button" class="btn" data-toggle="modal" data-target="#Observaciones">Observaciones</button>
+                        <button type="button" class="btn" data-dismiss="modal" data-toggle="modal" data-target="#Observaciones">Observaciones</button>
                     </td>
                     <td>
-                        <button type="button" class="btn" data-toggle="modal" data-target="#Tratamientos">Tratamientos</button>
+                        <button type="button" class="btn" data-dismiss="modal" data-toggle="modal" data-target="#Tratamientos">Tratamientos</button>
                     </td>
                     <td>
-                        <button type="button" class="btn" data-toggle="modal" data-target="#Turnos">Ver Turnos</button>
+                        <button type="button" class="btn" data-dismiss="modal" data-toggle="modal" data-target="#Turnos">Ver Turnos</button>
                     </td>
                     <td></td>
                     <td></td>
@@ -178,10 +173,10 @@
                             @if (this.ViewBag.Observaciones != null)
                             {
                                 foreach (Observacion o in this.ViewBag.Observaciones)
-                                {                                    
+                                {
                                     DateTime f = (DateTime)o.Fecha;
                                     string fecha = f.ToString("dd/MM/yyyy");
-                                    
+
                                     Medico maux = new Medico();
                                     foreach (Medico m in this.ViewBag.Medicos)
                                     {
@@ -207,7 +202,8 @@
                                         </td>
                                     </tr>
                                 }
-                            }else
+                            }
+                            else
                             {
                                 <tr>
                                     <td>
@@ -239,13 +235,15 @@
                         <h4 class="modal-title">@this.Model.Nombre @this.Model.Apellido</h4>
                     </div>
                     <div class="modal-body">
-                        <label>Tratamientos</label>
+                        <h3>Tratamientos</h3>
                         <table>
                             @if (this.ViewBag.Tratamientos != null)
                             {
                                 foreach (Tratamiento t in this.ViewBag.Tratamientos)
                                 {
-                                    int i = 1;
+                                    DateTime f = (DateTime)t.Fecha;
+                                    string fecha = f.ToString("dd/MM/yyyy");
+
                                     Medico maux = new Medico();
                                     foreach (Medico m in this.ViewBag.Medicos)
                                     {
@@ -256,10 +254,10 @@
                                     }
                                     <tr>
                                         <td>
-                                            <h3>Tratamiento @{i++;}:</h3>
+                                            <p>Fecha del Tratamiento: @fecha:</p>
                                             <blockquote class="blockquote text-center">
-                                                <p class="mb-0">@t</p>
-                                                <footer class="blockquote-footer">Tratamiento dictado por <cite title="Source Title">@maux.Apellido, @maux.Nombre</cite></footer>
+                                                <p class="mb-0">@t.Detalle</p>
+                                                <p class="blockquote-footer">Tratamiento dictado por <cite title="Source Title">@maux.Apellido, @maux.Nombre</cite></p>
                                             </blockquote>
                                         </td>
                                         <td>
@@ -283,8 +281,10 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" onclick="location.href='/../Tratamiento/Create'">Agregar Tratamiento</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        @Html.ActionLink("Agregar    ", $"../Tratamiento/Create/", new { idPaciente = this.Model.Id_Paciente }, new
+                                                                   {
+                                                                       @class = "btn btn-default"
+                                                                   })                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
 
@@ -301,13 +301,14 @@
                         <h4 class="modal-title">@this.Model.Nombre @this.Model.Apellido</h4>
                     </div>
                     <div class="modal-body">
-                        <label>Turnos</label>
+                        <h3>Turnos</h3>
                         <table>
                             @if (this.ViewBag.Turnos != null)
                             {
                                 foreach (Turno t in this.ViewBag.Turnos)
                                 {
-                                    int i = 1;
+                                    DateTime f = (DateTime)t.Fecha;
+                                    string fecha = f.ToString("dd/MM/yyyy");
                                     Medico maux = new Medico();
                                     foreach (Medico m in this.ViewBag.Medicos)
                                     {
@@ -318,10 +319,9 @@
                                     }
                                     <tr>
                                         <td>
-                                            <h3>Turnos @{i++;}:</h3>
                                             <blockquote class="blockquote text-center">
-                                                <p class="mb-0">Día: @t.Fecha.Date</p>
-                                                <p>Hora: @t.Inicio.Hours</p>
+                                                <p class="mb-0">Día: @fecha</p>
+                                                <p>Hora: @t.Inicio</p>
                                                 <p>Asignado a @maux.Apellido, @maux.Nombre</p>
                                             </blockquote>
                                         </td>
@@ -331,10 +331,15 @@
                                                 @class = "btn glyphicon glyphicon-edit",
                                                 style = "font-size: 1.Sem"
                                             })
+                                           @Html.ActionLink("Suspender    ", "../Turno/Delete", new { Id = t.Id_Turno }, new
+                                                                {
+                                                                    @class = "btn glyphicon glyphicon-remove"
+                                                                })
                                         </td>
                                     </tr>
                                 }
-                            }else
+                            }
+                            else
                             {
                                 <tr>
                                     <td>
@@ -345,7 +350,56 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" onclick="location.href='/../Turno/Create'">Agregar Turno</button>
+                        @Html.ActionLink("Agregar    ", $"../Turno/CreateFromPaciente/", new { Id = this.Model.Id_Paciente }, new
+                                                                   {
+                                                                       @class = "btn btn-default"
+                                                                   })                        
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Modal Borrar paciente -->
+        <div id="BorraPaciente" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body alert alert-dismissible alert-danger">
+                        <h3>Seguro que desea eliminar al paciente @this.Model.Apellido, @this.Model.Nombre</h3>
+                    </div>
+                    <div class="modal-footer">
+                        @Html.ActionLink("Confirmar    ", "Delete", new { Id = this.Model.Id_Paciente }, new
+                                            {
+                                                @class = "btn btn-danger"
+                                            })
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Modal Cancelar Turno -->
+        <div id="CancelaTurno" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body alert alert-dismissible alert-danger">
+                        <h3>Seguro que desea cancelar el turno?</h3>
+                    </div>
+                    <div class="modal-footer">
+                        @Html.ActionLink("Confirmar    ", "Delete", new { Id = this.Model.Id_Paciente }, new
+                                            {
+                                                @class = "btn btn-danger"
+                                            })
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>

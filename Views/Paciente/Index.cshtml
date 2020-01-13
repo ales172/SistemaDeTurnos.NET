@@ -15,7 +15,7 @@
         <div>
 
             <p>Pacientes:</p>
-            <span style="z-index:0; color: #15004D" >@Html.ActionLink("Nuevo", "Create", "Paciente", null, new { @class = "glyphicon glyphicon-plus" })</span>
+            <span style="z-index:0; color: #15004D">@Html.ActionLink("Nuevo", "Create", "Paciente", null, new { @class = "glyphicon glyphicon-plus" })</span>
             @using (Html.BeginForm())
             {
                 <table>
@@ -46,13 +46,6 @@
                                 @Html.ActionLink(" ", $"Edit", new { Id = paciente.Id_Paciente }, new
                            {
                                @class = "glyphicon glyphicon-edit",
-                               style = "font-size: 1.Sem"
-                           })
-
-
-                                @Html.ActionLink(" ", "Delete", new { Id = paciente.Id_Paciente }, new
-                           {
-                               @class = "glyphicon glyphicon-trash",
                                style = "font-size: 1.Sem"
                            })
                             </div>
