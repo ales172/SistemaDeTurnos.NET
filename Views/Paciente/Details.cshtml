@@ -121,8 +121,12 @@
                         <table>
                             <tr>
                                 <td>
+                                    @{ 
+                                        DateTime fi = (DateTime)ficha.Fecha_Ingreso;
+                                    string fechaIng = fi.ToString("dd/MM/yyyy");
+                                    }
                                     <label>Fecha de Ingreso</label>
-                                    <p>@ficha.Fecha_Ingreso</p>
+                                    <p>@fechaIng</p>
                                 </td>
                             </tr>
                             <tr>
@@ -307,8 +311,8 @@
                             {
                                 foreach (Turno t in this.ViewBag.Turnos)
                                 {
-                                    DateTime f = (DateTime)t.Fecha;
-                                    string fecha = f.ToString("dd/MM/yyyy");
+                                    DateTime f = (DateTime)t.Fecha_Inicio;
+                                    string fecha = f.ToString("dd/MM/yyyy HH:mm");
                                     Medico maux = new Medico();
                                     foreach (Medico m in this.ViewBag.Medicos)
                                     {
@@ -317,26 +321,40 @@
                                             maux = m;
                                         }
                                     }
-                                    <tr>
+                                 <tr>
+                                    @{
+                                        if (t.Fecha_Inicio < DateTime.Now)
+                                        {
                                         <td>
-                                            <blockquote class="blockquote text-center">
-                                                <p class="mb-0">Día: @fecha</p>
-                                                <p>Hora: @t.Inicio</p>
+                                            <blockquote class="blockquote text-center" style="background-color:#e87d7d">
+                                                <p class="mb-0">Turno: @fecha</p>
                                                 <p>Asignado a @maux.Apellido, @maux.Nombre</p>
+                                                <h5 style="text-align:left">El turno ya pasó</h5>
                                             </blockquote>
+                                        </td>
+                                        }
+                                        else
+                                        {
+                                        <td>
+                                        <blockquote class="blockquote text-center">
+                                            <p class="mb-0">Turno: @fecha</p>
+                                            <p>Asignado a @maux.Apellido, @maux.Nombre</p>
+                                        </blockquote>
                                         </td>
                                         <td>
                                             @Html.ActionLink("Editar    ", $"../Turno/Edit", new { Id = t.Id_Turno }, new
-                                            {
-                                                @class = "btn glyphicon glyphicon-edit",
-                                                style = "font-size: 1.Sem"
-                                            })
-                                           @Html.ActionLink("Suspender    ", "../Turno/Delete", new { Id = t.Id_Turno }, new
-                                                                {
-                                                                    @class = "btn glyphicon glyphicon-remove"
-                                                                })
+                                       {
+                                           @class = "btn glyphicon glyphicon-edit",
+                                           style = "font-size: 1.Sem"
+                                       })
+                                            @Html.ActionLink("Suspender    ", "../Turno/Delete", new { Id = t.Id_Turno }, new
+                                       {
+                                           @class = "btn glyphicon glyphicon-remove"
+                                       })
                                         </td>
-                                    </tr>
+                                            }
+                                        }
+                                 </tr>
                                 }
                             }
                             else

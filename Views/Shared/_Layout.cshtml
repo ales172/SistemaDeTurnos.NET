@@ -12,14 +12,13 @@
     <title>Document</title>
     <link href="~/Content/style.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
-    <script src="~/Scripts/jquery-3.4.1.js"></script>
-    <script src="~/Scripts/bootstrap.js"></script>
 
 </head>
 <body>
     <header>
         @Html.ActionLink("Inicio", "Index", "Home", null, new { @class = "btnHome" })
-        <div style="top:0px; align-content: center; justify-content: stretch"><h2>Sistema De Turnos</h2>
+        <div style="top:0px; align-content: center; justify-content: stretch">
+            <h2>Sistema De Turnos</h2>
         </div>
         <nav id="navMenu">
             <a href="/Medico/Index" class="link">Médicos</a>
@@ -43,6 +42,15 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
-
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/fullcalendar.min.js"></script>
+<script src="~/Scripts/calendar.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        GetEventsOnPageLoad();
+    });
+</script>
 
 

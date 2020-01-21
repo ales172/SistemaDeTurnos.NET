@@ -76,11 +76,10 @@
     <Property Name="Id_Turno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Id_Paciente" Type="Int32" Nullable="false" />
     <Property Name="Id_Medico" Type="Int32" Nullable="false" />
-    <Property Name="Fecha" Type="DateTime" Precision="0" Nullable="false" />
+    <Property Name="Fecha_Inicio" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Fecha_Fin" Type="DateTime" Nullable="false" Precision="0" />
     <NavigationProperty Name="Medico" Relationship="Self.FK_Turno_Medico" FromRole="Turno" ToRole="Medico" />
     <NavigationProperty Name="Paciente" Relationship="Self.FK_Turno_Paciente" FromRole="Turno" ToRole="Paciente" />
-    <Property Name="Inicio" Type="Time" Nullable="false" Precision="7" />
-    <Property Name="Fin" Type="Time" Nullable="false" Precision="7" />
   </EntityType>
   <Association Name="FK_Ficha_Paciente">
     <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />

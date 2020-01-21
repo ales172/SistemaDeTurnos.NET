@@ -1,4 +1,5 @@
-﻿using SistemaDeTurnos.Models;
+﻿using Newtonsoft.Json;
+using SistemaDeTurnos.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,7 +67,7 @@ namespace SistemaDeTurnos.Controllers
             Ficha ficha = db.Ficha.FirstOrDefault(f => f.Id_Paciente == Id);
             List<Observacion> observaciones = db.Observacion.Where(o => o.Id_Paciente == Id).OrderBy(o => o.Fecha).ToList();
             List<Tratamiento> tratamientos = db.Tratamiento.Where(t => t.Id_Paciente == Id).OrderBy(t => t.Fecha).ToList();
-            List<Turno> turnos = db.Turno.Where(t => t.Id_Paciente == Id).OrderBy(t => t.Fecha).ToList();
+            List<Turno> turnos = db.Turno.Where(t => t.Id_Paciente == Id).OrderBy(t => t.Fecha_Inicio).ToList();
             List<Medico> medicos = db.Medico.ToList();
             this.ViewBag.Ficha = ficha;
             this.ViewBag.Observaciones = observaciones;
@@ -168,6 +169,22 @@ namespace SistemaDeTurnos.Controllers
         {
             Ficha ficha = this.db.Ficha.FirstOrDefault(f => f.Id_Ficha == Id);
             return View(ficha);
+        }
+
+        public JsonResult TraePacientePorId(int Id_Paciente)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            Paciente paciente = this.db.Paciente.Find(Id_Paciente);
+            var json = JsonConvert.SerializeObject(paciente);
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult TraePacientes()
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            List<Paciente> pacientes = this.db.Paciente.OrderBy(p => p.Apellido).ToList();
+            var json = JsonConvert.SerializeObject(pacientes);
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
         /*
         private List<Paciente> normalizarLista(IQueryable<Paciente> lista)

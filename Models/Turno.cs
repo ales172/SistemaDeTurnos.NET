@@ -17,18 +17,10 @@ namespace SistemaDeTurnos.Models
         public int Id_Turno { get; set; }
         public int Id_Paciente { get; set; }
         public int Id_Medico { get; set; }
-        public System.DateTime Fecha { get; set; }
-        public System.TimeSpan Inicio { get; set; }
-        public System.TimeSpan Fin { get; set; }
+        public System.DateTime Fecha_Inicio { get; set; }
+        public System.DateTime Fecha_Fin { get; set; }
     
         public virtual Medico Medico { get; set; }
         public virtual Paciente Paciente { get; set; }
-
-        public Turno()
-        {
-            this.Fecha = DateTime.Now.Date;
-            this.Inicio = new TimeSpan(12, 0, 0);
-            this.Fin = this.Inicio.Add(new TimeSpan(1, 0, 0));
-        }
     }
 }

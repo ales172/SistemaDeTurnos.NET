@@ -66,12 +66,11 @@
     <EntitySetMapping Name="Turno">
       <EntityTypeMapping TypeName="SystemaDeTurnosModel.Turno">
         <MappingFragment StoreEntitySet="Turno">
-          <ScalarProperty Name="Fin" ColumnName="Fin" />
-          <ScalarProperty Name="Inicio" ColumnName="Inicio" />
           <ScalarProperty Name="Id_Turno" ColumnName="Id_Turno" />
           <ScalarProperty Name="Id_Paciente" ColumnName="Id_Paciente" />
           <ScalarProperty Name="Id_Medico" ColumnName="Id_Medico" />
-          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="Fecha_Inicio" ColumnName="Fecha_Inicio" />
+          <ScalarProperty Name="Fecha_Fin" ColumnName="Fecha_Fin" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

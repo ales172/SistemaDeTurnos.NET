@@ -172,9 +172,8 @@ CREATE TABLE [dbo].[Turno](
 	[Id_Turno] [int] IDENTITY(1,1) NOT NULL,
 	[Id_Paciente] [int] NOT NULL,
 	[Id_Medico] [int] NOT NULL,
-	[Fecha] [date] NOT NULL,
-	[Inicio] [time](7) NOT NULL,
-	[Fin] [time](7) NOT NULL,
+	[Fecha_Inicio] [date] NOT NULL,
+	[Fecha_Fin] [date] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Id_Turno] ASC

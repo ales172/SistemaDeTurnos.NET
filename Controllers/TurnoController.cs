@@ -1,4 +1,5 @@
-﻿using SistemaDeTurnos.Models;
+﻿using Newtonsoft.Json;
+using SistemaDeTurnos.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,8 @@ namespace SistemaDeTurnos.Controllers
         // GET: Turno
         public ActionResult Index()
         {
-            this.ViewBag.Pacientes = this.db.Paciente.ToList();
-            this.ViewBag.Medicos = this.db.Medico.ToList();
-            return View("Index",this.db.Turno.ToList());
+            ;
+            return View("Index");
         }
 
         // GET: Turno/Details/5
@@ -49,7 +49,7 @@ namespace SistemaDeTurnos.Controllers
                 {
                     return Content("No se pudieron insertar los datos, faltan datos");
                 }
-                turno.Fin = turno.Inicio.Add(new TimeSpan(1, 0, 0));
+                turno.Fecha_Fin = turno.Fecha_Inicio.Add(new TimeSpan(1, 0, 0));
                 this.db.Turno.Add(turno);
                 this.db.SaveChanges();
                 return RedirectToAction($"../Paciente/Details/{turno.Id_Paciente}");
@@ -79,7 +79,7 @@ namespace SistemaDeTurnos.Controllers
                 {
                     return Content("No se pudieron insertar los datos, faltan datos");
                 }
-                turno.Fin = turno.Inicio.Add(new TimeSpan(1,0,0));
+                turno.Fecha_Fin = turno.Fecha_Inicio.Add(new TimeSpan(1,0,0));
                 this.db.Turno.Add(turno);
                 this.db.SaveChanges();
                 return View("Index", db.Turno.ToList());
@@ -95,7 +95,7 @@ namespace SistemaDeTurnos.Controllers
         {
             this.ViewBag.Medicos = this.db.Medico.ToList();
             this.ViewBag.Pacientes = this.db.Paciente.ToList();
-
+            
             return View(this.db.Turno.Find(Id));
         }
 
@@ -107,11 +107,12 @@ namespace SistemaDeTurnos.Controllers
             this.ViewBag.Pacientes = this.db.Paciente.ToList();
             try
             {
+                turno.Fecha_Fin = turno.Fecha_Inicio.Add(new TimeSpan(1, 0, 0));
                 this.db.Turno.Attach(turno);
                 this.db.Entry(turno).State = System.Data.Entity.EntityState.Modified;
                 this.db.SaveChanges();
                 
-                return View("Index",this.db.Turno.ToList());
+                return RedirectToAction($"../Paciente/Details/{turno.Id_Paciente}");
             }
             catch
             {
@@ -127,6 +128,36 @@ namespace SistemaDeTurnos.Controllers
             this.ViewBag.Medicos = this.db.Medico.ToList();
             this.ViewBag.Pacientes = this.db.Paciente.ToList();
             return View("Index", this.db.Turno.ToList());
+        }
+
+        public ActionResult GetEventData()
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var turnos = this.db.Turno.Select(t => new {
+                t.Id_Turno,
+                t.Id_Medico,
+                t.Id_Paciente,
+                t.Fecha_Inicio,
+                t.Fecha_Fin,
+            }).ToList();
+            return Json(turnos, JsonRequestBehavior.AllowGet);        }
+        public JsonResult GetEventDetailByEventId(int Id_Turno)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+
+            Turno turno = this.db.Turno.Find(Id_Turno);
+            var json = JsonConvert.SerializeObject(turno);
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+        public void UpdateEventDetails(string eventId, DateTime startDate, DateTime endDate)
+        {
+            using (SystemaDeTurnosEntities db = new SystemaDeTurnosEntities())
+            {
+                Turno eventDetail = db.Turno.ToList().Where(x => x.Id_Turno == Convert.ToInt32(eventId)).First();
+                eventDetail.Fecha_Inicio = startDate;
+                eventDetail.Fecha_Fin = endDate;
+                db.SaveChanges();
+            }
         }
     }
 }

@@ -1,0 +1,72 @@
+﻿@using SistemaDeTurnos.Models
+@model Turno
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<!DOCTYPE html>
+<html>
+<body>
+    <main>
+        <form method="post">
+            <table class="text-left" id="tablaCrea">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <select class="form-control custom-select" name="Id_Paciente">
+                                    <option selected="">Asignar turno a:</option>
+                                    @foreach (Paciente p in this.ViewBag.Pacientes)
+                                    {
+                                        if (p.Id_Paciente == this.Model.Id_Paciente)
+                                        {
+                                            <option selected="selected" value="@p.Id_Paciente">@p.Apellido, @p.Nombre</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@p.Id_Paciente">@p.Apellido, @p.Nombre</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="padding-bottom: 15px">
+                        <td style="padding-bottom: 15px">
+                            
+                            
+                            <label>Fecha y Hora del Turno (mes-dia-año)</label>
+                            <input class="form-control date" type="datetime" name="Fecha_Inicio" value="@this.Model.Fecha_Inicio" required />
+                        </td>
+                    </tr>
+
+                    <tr style="padding-bottom: 15px; padding-top: 15px">
+                        <td>
+                            <div class="form-group">
+                                <select class="form-control custom-select" name="Id_Medico">
+                                    <option selected="">Asignar turno a:</option>
+                                    @foreach (Medico m in this.ViewBag.Medicos)
+                                    {
+                                        if (m.Id_Medico == this.Model.Id_Medico)
+                                        {
+                                            <option selected="selected" value="@m.Id_Medico">@m.Apellido, @m.Nombre</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@m.Id_Medico">@m.Apellido, @m.Nombre</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+            <input type="hidden" name="Id_Turno" value="@this.Model.Id_Turno"/>
+            <button class="btn">Enviar Datos</button>
+        </form>
+    </main>
+</body>
+</html>

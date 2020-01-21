@@ -17,7 +17,7 @@ namespace SistemaDeTurnos.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Paciente()
         {
-            this.Id_Paciente = 0;
+            this.Ficha = new HashSet<Ficha>();
             this.Observacion = new HashSet<Observacion>();
             this.Tratamiento = new HashSet<Tratamiento>();
             this.Turno = new HashSet<Turno>();
@@ -33,7 +33,7 @@ namespace SistemaDeTurnos.Models
         public string Telefono_Contacto { get; set; }
         public string Obra_Social { get; set; }
         public string Numero_OS { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ficha> Ficha { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

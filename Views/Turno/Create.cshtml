@@ -15,7 +15,7 @@
                     <tr style="padding-bottom: 15px">
                         <td style="padding-bottom: 15px">
                             <label>Fecha del Turno</label>
-                            <input class="form-control" type="date" style="padding-bottom: 15px" name="Fecha" required />
+                            <input class="form-control" type="datetime-local" style="padding-bottom: 15px" name="Fecha_Inicio" required />
                         </td>
                     </tr>
 
@@ -27,23 +27,6 @@
                                     @foreach (Medico m in this.ViewBag.Medicos)
                                     {
                                         <option value="@m.Id_Medico">@m.Apellido, @m.Nombre</option>
-                                    }
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                <select class="form-control custom-select" name="Inicio">
-                                    <option selected="">Horario:</option>
-                                    @for (int i = 8; i < 21; i++)
-                                    {
-                                        TimeSpan enPunto = new TimeSpan(i, 0, 0);
-                                        TimeSpan yMedia = enPunto.Add(new TimeSpan(0, 30, 0));
-                                        <option value="@enPunto">@enPunto</option>
-                                        <option value="@yMedia">@yMedia</option>
-
                                     }
                                 </select>
                             </div>

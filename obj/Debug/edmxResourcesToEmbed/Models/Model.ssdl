@@ -64,9 +64,8 @@
     <Property Name="Id_Turno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Id_Paciente" Type="int" Nullable="false" />
     <Property Name="Id_Medico" Type="int" Nullable="false" />
-    <Property Name="Fecha" Type="date" Nullable="false" />
-    <Property Name="Inicio" Type="time" Precision="7" Nullable="false" />
-    <Property Name="Fin" Type="time" Precision="7" Nullable="false" />
+    <Property Name="Fecha_Inicio" Type="date" Nullable="false" />
+    <Property Name="Fecha_Fin" Type="date" Nullable="false" />
   </EntityType>
   <Association Name="FK_Ficha_Paciente">
     <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />

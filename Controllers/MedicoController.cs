@@ -1,4 +1,5 @@
-﻿using SistemaDeTurnos.Models;
+﻿using Newtonsoft.Json;
+using SistemaDeTurnos.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,9 +88,8 @@ namespace SistemaDeTurnos.Controllers
                 }
                 this.db.Medico.Add(medico);// lo agrego y guardo los cambios
                 this.db.SaveChanges();
-                int id = this.db.Medico.FirstOrDefault(m => m.Dni == medico.Dni).Id_Medico;
                 
-                return RedirectToAction("Details", id);
+                return RedirectToAction("Details", medico.Id_Medico);
             }
             catch
             {
@@ -121,6 +121,22 @@ namespace SistemaDeTurnos.Controllers
             {
                 return View("Index");
             }
+        }
+
+        public JsonResult TraeMedicoPorId(int Id_Medico)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            Medico medico = this.db.Medico.Find(Id_Medico);
+            var json = JsonConvert.SerializeObject(medico);
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult TraeMedicos()
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            List<Medico> medicos = this.db.Medico.OrderBy(m => m.Apellido).ToList();
+            var json = JsonConvert.SerializeObject(medicos);
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
     }
 }

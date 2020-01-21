@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SystemaDeTurnosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SystemaDeTurnosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Ficha">
           <Key>
             <PropertyRef Name="Id_Ficha" />
@@ -69,9 +69,8 @@
           <Property Name="Id_Turno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Id_Paciente" Type="int" Nullable="false" />
           <Property Name="Id_Medico" Type="int" Nullable="false" />
-          <Property Name="Fecha" Type="date" Nullable="false" />
-          <Property Name="Inicio" Type="time" Precision="7" Nullable="false" />
-          <Property Name="Fin" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Fecha_Inicio" Type="date" Nullable="false" />
+          <Property Name="Fecha_Fin" Type="date" Nullable="false" />
         </EntityType>
         <Association Name="FK_Ficha_Paciente">
           <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
@@ -193,7 +192,8 @@
             <End Role="Turno" EntitySet="Turno" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SystemaDeTurnosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -273,11 +273,10 @@
           <Property Name="Id_Turno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Id_Paciente" Type="Int32" Nullable="false" />
           <Property Name="Id_Medico" Type="Int32" Nullable="false" />
-          <Property Name="Fecha" Type="DateTime" Precision="0" Nullable="false" />
+          <Property Name="Fecha_Inicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Fecha_Fin" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Medico" Relationship="Self.FK_Turno_Medico" FromRole="Turno" ToRole="Medico" />
           <NavigationProperty Name="Paciente" Relationship="Self.FK_Turno_Paciente" FromRole="Turno" ToRole="Paciente" />
-          <Property Name="Inicio" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="Fin" Type="Time" Nullable="false" Precision="7" />
         </EntityType>
         <Association Name="FK_Ficha_Paciente">
           <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
@@ -470,12 +469,11 @@
           <EntitySetMapping Name="Turno">
             <EntityTypeMapping TypeName="SystemaDeTurnosModel.Turno">
               <MappingFragment StoreEntitySet="Turno">
-                <ScalarProperty Name="Fin" ColumnName="Fin" />
-                <ScalarProperty Name="Inicio" ColumnName="Inicio" />
                 <ScalarProperty Name="Id_Turno" ColumnName="Id_Turno" />
                 <ScalarProperty Name="Id_Paciente" ColumnName="Id_Paciente" />
                 <ScalarProperty Name="Id_Medico" ColumnName="Id_Medico" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Fecha_Inicio" ColumnName="Fecha_Inicio" />
+                <ScalarProperty Name="Fecha_Fin" ColumnName="Fecha_Fin" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
