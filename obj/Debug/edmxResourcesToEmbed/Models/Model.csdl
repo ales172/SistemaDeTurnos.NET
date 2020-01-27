@@ -76,8 +76,8 @@
     <Property Name="Id_Turno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Id_Paciente" Type="Int32" Nullable="false" />
     <Property Name="Id_Medico" Type="Int32" Nullable="false" />
-    <Property Name="Fecha_Inicio" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="Fecha_Fin" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Fecha_Inicio" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Fecha_Fin" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="Medico" Relationship="Self.FK_Turno_Medico" FromRole="Turno" ToRole="Medico" />
     <NavigationProperty Name="Paciente" Relationship="Self.FK_Turno_Paciente" FromRole="Turno" ToRole="Paciente" />
   </EntityType>
@@ -200,5 +200,13 @@
       <End Role="Paciente" EntitySet="Paciente" />
       <End Role="Turno" EntitySet="Turno" />
     </AssociationSet>
+    <EntitySet Name="Color" EntityType="SystemaDeTurnosModel.Color" />
   </EntityContainer>
+  <EntityType Name="Color">
+    <Key>
+      <PropertyRef Name="Id_Color" />
+    </Key>
+    <Property Name="Id_Color" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Hex" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>

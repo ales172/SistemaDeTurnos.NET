@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SystemaDeTurnosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Color">
+    <Key>
+      <PropertyRef Name="Id_Color" />
+    </Key>
+    <Property Name="Id_Color" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Hex" Type="varchar" MaxLength="10" />
+  </EntityType>
   <EntityType Name="Ficha">
     <Key>
       <PropertyRef Name="Id_Ficha" />
@@ -64,8 +71,8 @@
     <Property Name="Id_Turno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Id_Paciente" Type="int" Nullable="false" />
     <Property Name="Id_Medico" Type="int" Nullable="false" />
-    <Property Name="Fecha_Inicio" Type="date" Nullable="false" />
-    <Property Name="Fecha_Fin" Type="date" Nullable="false" />
+    <Property Name="Fecha_Inicio" Type="datetime" Nullable="false" />
+    <Property Name="Fecha_Fin" Type="datetime" Nullable="false" />
   </EntityType>
   <Association Name="FK_Ficha_Paciente">
     <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
@@ -152,6 +159,7 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="SystemaDeTurnosModelStoreContainer">
+    <EntitySet Name="Color" EntityType="Self.Color" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Ficha" EntityType="Self.Ficha" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Medico" EntityType="Self.Medico" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Observacion" EntityType="Self.Observacion" Schema="dbo" store:Type="Tables" />

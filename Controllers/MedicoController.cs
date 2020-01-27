@@ -89,7 +89,7 @@ namespace SistemaDeTurnos.Controllers
                 this.db.Medico.Add(medico);// lo agrego y guardo los cambios
                 this.db.SaveChanges();
                 
-                return RedirectToAction("Details", medico.Id_Medico);
+                return View("Details", medico);
             }
             catch
             {
@@ -115,7 +115,7 @@ namespace SistemaDeTurnos.Controllers
                 this.db.Medico.Attach(medico);
                 this.db.Entry(medico).State = System.Data.Entity.EntityState.Modified;
                 this.db.SaveChanges();
-                return RedirectToAction("Details", medico.Id_Medico);
+                return View("Details", medico);
             }
             catch
             {

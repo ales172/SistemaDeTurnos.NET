@@ -4,7 +4,14 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SystemaDeTurnosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SystemaDeTurnosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Color">
+          <Key>
+            <PropertyRef Name="Id_Color" />
+          </Key>
+          <Property Name="Id_Color" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Hex" Type="varchar" MaxLength="10" />
+        </EntityType>
         <EntityType Name="Ficha">
           <Key>
             <PropertyRef Name="Id_Ficha" />
@@ -69,8 +76,8 @@
           <Property Name="Id_Turno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Id_Paciente" Type="int" Nullable="false" />
           <Property Name="Id_Medico" Type="int" Nullable="false" />
-          <Property Name="Fecha_Inicio" Type="date" Nullable="false" />
-          <Property Name="Fecha_Fin" Type="date" Nullable="false" />
+          <Property Name="Fecha_Inicio" Type="datetime" Nullable="false" />
+          <Property Name="Fecha_Fin" Type="datetime" Nullable="false" />
         </EntityType>
         <Association Name="FK_Ficha_Paciente">
           <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
@@ -157,6 +164,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="SystemaDeTurnosModelStoreContainer">
+          <EntitySet Name="Color" EntityType="Self.Color" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ficha" EntityType="Self.Ficha" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Medico" EntityType="Self.Medico" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Observacion" EntityType="Self.Observacion" Schema="dbo" store:Type="Tables" />
@@ -192,8 +200,7 @@
             <End Role="Turno" EntitySet="Turno" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SystemaDeTurnosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -273,8 +280,8 @@
           <Property Name="Id_Turno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Id_Paciente" Type="Int32" Nullable="false" />
           <Property Name="Id_Medico" Type="Int32" Nullable="false" />
-          <Property Name="Fecha_Inicio" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Fecha_Fin" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Fecha_Inicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Fecha_Fin" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Medico" Relationship="Self.FK_Turno_Medico" FromRole="Turno" ToRole="Medico" />
           <NavigationProperty Name="Paciente" Relationship="Self.FK_Turno_Paciente" FromRole="Turno" ToRole="Paciente" />
         </EntityType>
@@ -397,7 +404,15 @@
             <End Role="Paciente" EntitySet="Paciente" />
             <End Role="Turno" EntitySet="Turno" />
           </AssociationSet>
+          <EntitySet Name="Color" EntityType="SystemaDeTurnosModel.Color" />
         </EntityContainer>
+        <EntityType Name="Color">
+          <Key>
+            <PropertyRef Name="Id_Color" />
+          </Key>
+          <Property Name="Id_Color" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Hex" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -474,6 +489,14 @@
                 <ScalarProperty Name="Id_Medico" ColumnName="Id_Medico" />
                 <ScalarProperty Name="Fecha_Inicio" ColumnName="Fecha_Inicio" />
                 <ScalarProperty Name="Fecha_Fin" ColumnName="Fecha_Fin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Color">
+            <EntityTypeMapping TypeName="SystemaDeTurnosModel.Color">
+              <MappingFragment StoreEntitySet="Color">
+                <ScalarProperty Name="Hex" ColumnName="Hex" />
+                <ScalarProperty Name="Id_Color" ColumnName="Id_Color" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

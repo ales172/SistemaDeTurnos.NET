@@ -42,12 +42,8 @@
                             <input class="form-control" type="text" name="Dni" value="@this.Model.Dni" pattern="[0-9]{7-8}" required />
                         </td>
                         <td>
-                            @{ 
-                                DateTime f = (DateTime)this.Model.Fecha_Nac;
-                                string fechaNac = f.ToString("dd/MM/yyyy");
-                            }
                             <label>Fecha de Nacimiento</label>
-                            <input class="form-control" type="text" name="Fecha_Nac" onfocus="(this.type='date')" onblur="if(this.value==''){this.type='text'}" value="@fechaNac" required />
+                            <input class="form-control" type="text" name="Fecha_Nac" onfocus="(this.type='date')" onblur="if(this.value==''){this.type='text'}" value="@this.Model.Fecha_Nac" required />
                         </td>
                         <td>
                             <button type="button" class="form btn btn-sm" data-toggle="modal" data-target="#Ficha">Ver Ficha</button>

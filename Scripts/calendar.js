@@ -12,12 +12,8 @@
             week: 'Semana',
             day: 'Día'
         },
-        
-        defaultView: 'agendaWeek',
-
+        defaultView: 'month',
         selectable: true,
-        dateClick: function (date) {
-            showModal('Turno Nuevo', CreaTurno(date), null)},
         height: 'parent',
         events: function (start, end, timezone, callback) {
             $.ajax({
@@ -25,26 +21,9 @@
                 contentType: " application/json",
                 url: "/Turno/GetEventData",
                 dataType: "JSON",
-                success: function (data) {
-                    var events = [];
-                    $.each(data, function (i, data) {
-                        var bgc = '';
-                        if (moment().isAfter(data.Fecha_Fin)) {
-                            bgc = '#c4c4c4';
-                        }
-                        else {
-                            bgc = '#4287f5';
-                        }
-                        events.push(
-                            {
-                                Title: data.Id_Paciente,
-                                start: moment(data.Fecha_Inicio).format("YYYY-MM-DD HH:mm:ss"),
-                                end: moment(data.Fecha_Fin).format("YYYY-MM-DD HH:mm:ss"),
-                                backgroundColor: bgc, borderColor: 'black',
-                                Id_Turno: data.Id_Turno
-                            });
-                    });
-                    callback(events);
+                success: function (turnos) {
+                   events = PushEvents(turnos);
+                   callback(events);
                 }
             })
         },
@@ -53,7 +32,17 @@
                 $('#calendar').fullCalendar('changeView', 'agendaDay', date);
             } else {
                 showModal('Turno Nuevo', CreaTurno(date), null)
-            }},
+            }
+        },
+        eventRender: function eventRender(event) {
+            
+            var index = $('#Profesionales').val(); 
+
+            if (index != 'all') {
+            index = parseInt($('#Profesionales').val()); 
+            }
+            return ['all', event.Id_Medico].indexOf(index) >= 0
+        },
         nextDayThreshold: '00:00:00',
         editable: false,
         droppable: false,
@@ -67,7 +56,8 @@
         },
         eventResize: function (info) {
             UpdateEventDetails(info.Id_Turno, info.Fecha_Inicio.toISOString(), info.Fecha_Fin.toISOString());
-        }
+        },
+        weekends: true
     })
 }
 
@@ -98,14 +88,21 @@ function showModal(title, body, isEventDetail) {
         $("#MyPopup").modal("show");
     }
     else {
+        //datos a mostrar en el modal con los detalles del evento
+
+        //El body es pasado como JSON entonces lo convierto a objeto del tipo Turno
         var turno = JSON.parse(body);
+        //traigo el paciente y profesional por Id en formato JSON
         var pacienteJs = traePaciente(turno.Id_Paciente);
         var medicoJs = traeMedico(turno.Id_Medico);
+        //Convierto los JSON a objeto
         var paciente = JSON.parse(pacienteJs);
         var medico = JSON.parse(medicoJs);
+        //Titulo del modal
         var eventDetail = 'Paciente: ' + paciente.Apellido + ', ' + paciente.Nombre + '</br>';
+        //informacion que va al modal
         var eventInfo = 'Profesional: ' + medico.Apellido + ', ' + medico.Nombre + '</br>';
-        var eventStart = 'Fecha y Hora: ' + moment(turno.Fecha_Inicio).format("DD-MM-YY HH:mm") + '</br>';
+        var eventStart = 'Fecha y Hora: ' + moment(turno.Fecha_Inicio).format("DD-MM-YY HH:mm") + '</br><div class="self-align: right"><button class="btn"><a href="/Turno/Edit/' + turno.Id_Turno + '">Editar</a></button> &nbsp; <button class="btn"><a href="/Turno/Delete/' + turno.Id_Turno + '">Eliminar</a></button></div>';
         $("#MyPopup .modal-body").html(eventDetail + eventInfo + eventStart);
         $("#MyPopup").modal("show");
     }
@@ -124,6 +121,7 @@ function UpdateEventDetails(eventId, startDate, endDate) {
         data: JSON.stringify(object)
     });
 }
+// Funcion que tra un JSON de UN profesional a partir del Id del mismo
 function traeMedico(Id_Medico) {
     var object = {};
     var med = null;
@@ -141,7 +139,7 @@ function traeMedico(Id_Medico) {
     });
     return med;
 }
-
+// Funcion que trae un JSON de los profesionales
 function traeMedicos() {
     var meds = null;
     $.ajax({
@@ -156,7 +154,7 @@ function traeMedicos() {
     });
     return meds;
 }
-
+// Funcion que trae un JSON de UN paciente a partir del Id del mismo
 function traePaciente(Id_Paciente) {
     var object = {};
     object.Id_Paciente = Id_Paciente;
@@ -174,7 +172,7 @@ function traePaciente(Id_Paciente) {
     });
     return pcte;
 }
-
+//Funcion que trae un JSON de todos los pacientes
 function traePacientes() {
     var pctes = null;
     $.ajax({
@@ -189,30 +187,162 @@ function traePacientes() {
     });
     return pctes;
 }
-function CreaTurno(date) {
-    var fecha = moment(date).format();
-    /*if (!fecha.getHours().toString()) {
-       date.setHours(1);
-        date.setMinutes(00);
-    }*/
 
-   
+//funcion que crea el html para crear un turno. Este HTML va como parametro de una funcion que levanta un modal
+function CreaTurno(date) {
+    //formateo la fecha
+    var fecha = moment(date).format();
+    //traigo la lista de pacientes en forma de Json
     var pacientesJs = traePacientes();
+    //paso el Json de los pacientes a una lista de objetos de los pacientes
     var pacientes = JSON.parse(pacientesJs);
+    //traigo la lista de profesionales en forma de Json
     var medicosJs = traeMedicos();
+    //paso el Json de los profesionales a una lista de objetos de los profesionales 
     var medicos = JSON.parse(medicosJs);
+    //inicializo las variables que voy a usar en los options
     var htmlOptMeds = '';
     var htmlOptPctes = '';
     //HTMLinicial hasta el select de medicos
-    var html = '<form method="post" action="/Turno/Create"><table class="text-left" id = "tablaCrea"><tbody><tr style="padding-bottom: 15px"><td style="padding-bottom: 15px"><label>Fecha del Turno</label><input class="form-control" type="datetime-local" style="padding-bottom: 15px" name="Fecha_Inicio" value="'+ fecha +'" required /></td></tr><tr style="padding-bottom: 15px; padding-top: 15px"><td><div class="form-group"><select class="form-control custom-select" name="Id_Medico"><option selected="">Asignar turno a:</option>';
+    var html = '<form method="post" action="/Turno/Create"><table class="text-left" id = "tablaCrea"><tbody><tr style="padding-bottom: 15px"><td style="padding-bottom: 15px"><label>Fecha del Turno</label><input class="form-control" type="datetime-local" style="padding-bottom: 15px" name="Fecha_Inicio" value="'+ fecha +'" required /></td></tr><tr style="padding-bottom: 15px; padding-top: 15px"><td><div class="form-group"><select class="form-control custom-select" name="Id_Medico" required><option selected="">Asignar turno a:</option>';
+    // le agrego el select de los profesionales
     $.each(medicos, function (index, value) {
         htmlOptMeds = htmlOptMeds + '<option value="' + value.Id_Medico + '">' + value.Apellido + ',' + value.Nombre +'</option>';
     });
-    html = html + htmlOptMeds + '</select></div></td></tr><tr><td><div class="form-group"><select class="form-control custom-select" name="Id_Paciente"><option selected="">Paciente:</option>';
+    // cierro el select y sumo el html hasta el select de los pacientes
+    html = html + htmlOptMeds + '</select></div></td></tr><tr><td><div class="form-group"><select class="form-control custom-select" name="Id_Paciente" required><option selected="">Paciente:</option>';
+    //select de los pacientes
     $.each(pacientes, function (index, value) {
         htmlOptPctes = htmlOptPctes + '<option value="' + value.Id_Paciente + '">' + value.Apellido + ',' + value.Nombre +'</option>';
     });
+    //cierro select y completo loque queda del html y cierro el form
     html = html + htmlOptPctes + '</select></div></td></tr></tbody></table ><button class="btn">Enviar Datos</button></form >';
-
+    //devuelvo el html completo
     return html;
+}
+//completa el select de profesionales para filtrar
+$(document).ready(function () {
+    $("#Profesionales").ready(function () {
+        $.ajax({
+            url: '/Medico/TraeMedicos', 
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                //parseo los profesionales, de  JSON a una lista de medicos
+                var meds = JSON.parse(response);
+                var colors = JSON.parse(traeColores());
+                $("#Profesionales").empty();
+                $("#Profesionales").append('<option selected value="all">Ver turnos de: </option>');
+                $.each(meds, function (index, value) {
+                    $("#Profesionales").append('<option value="' + value.Id_Medico + '">' + value.Apellido + ',' + value.Nombre + '</option>');
+                });
+            }
+        });
+    });
+});
+// Filtro de profesionales
+$('#Profesionales').on('change', function () {
+    select = $(this).val();
+    console.log(select);
+    $('#calendar').fullCalendar('rerenderEvents');
+});
+//Trae colores en formato json
+function traeColores() {
+    var colores = null;
+    $.ajax({
+        async: false,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        url: "/Turno/TraeColores",
+        dataType: "json",
+        success: function (colors) {
+            colores = colors;
+        }
+    });
+    return colores;
+}
+// Trae turnos asignados al medico pasado por id en formato json
+function TraeTurnosPorIdMedico(Id_Medico) {
+    var turnos = null;
+    var object = {};
+    object.Id_Medico = Id_Medico;
+    var events = [];
+    //traigo todos los turnos que estan asociados al medico que paso por Id
+    $.ajax({
+        async: false,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        url: "/Turno/TraeTurnosPorIdMedico",
+        dataType: "JSON",
+        data: object,
+        success: function (trns) {
+            turnos = trns;
+        }
+
+    });
+
+    // A los turnos los mapeo con la funcion PushEvents
+    events = PushEvents(turnos);
+    //Retorno el array de los turnos, asociados al medico que paso pr Id, ya mapeados listos para renderizar
+    return events;
+}
+//trae todos los turnos en formato json
+function TraeTurnos() {
+    var turnos = null;
+    $.ajax({
+        async: false,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        url: "/Turno/GetEventData",
+        dataType: "json",
+        success: function (data) {
+            turnos = data;
+        }
+    });
+    return turnos;
+}
+//funcion que pushea los eventos a un arreglo
+function PushEvents(eventosEntrada) {
+    var events = [];
+    //en turnos tengo la lista de eventos en JSON
+    // traigo los medicos y los colores que le voy a asignar a cada uno
+    var medicosJs = traeMedicos();
+    var medicos = JSON.parse(medicosJs);
+    var coloresJs = traeColores();
+    var colores = JSON.parse(coloresJs);
+    if ((typeof eventosEntrada) != "object") {
+        eventosEntrada = JSON.parse(eventosEntrada);
+    }
+    $.each(eventosEntrada, function (i, data) {
+        var bgc = '';
+        // Si la fecha es anterior a la de ahora, le asigno color gris al turno
+        if (moment().isAfter(data.Fecha_Fin)) {
+            bgc = '#c4c4c4';
+        }
+        else {
+            //Le asigno a cada medico un color, de la base de datos
+            $.each(medicos, function (indx, m) {
+                if (data.Id_Medico == m.Id_Medico) {
+                    //Hago el mod 50 porque tengo 50 colores cargados en la base de datos. 
+                    //A partir del medico numero 50 vuelvo a repetir colores
+                    bgc = colores[indx%50].Hex;
+                }
+            })
+        }
+        var pacienteJs = traePaciente(data.Id_Paciente);
+        var paciente = JSON.parse(pacienteJs);
+        //Mapeo los eventos y los paso al arreglo events 
+        events.push(
+            {
+                title: paciente.Apellido + ', ' + paciente.Nombre,
+                start: moment(data.Fecha_Inicio).format("YYYY-MM-DD HH:mm:ss"),
+                end: moment(data.Fecha_Fin).format("YYYY-MM-DD HH:mm:ss"),
+                backgroundColor: bgc, borderColor: 'rgba(0,0,0,0.1)',
+                Id_Turno: data.Id_Turno,
+                Id_Paciente: data.Id_Paciente,
+                Id_Medico: data.Id_Medico
+            });
+    });
+    //Devuelvo los eventos mapeados
+    return events
 }

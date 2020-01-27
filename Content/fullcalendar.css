@@ -1433,4 +1433,7 @@ be a descendant of the grid when it is being dragged.
 .fc-unthemed .fc-list-empty { /* theme will provide own background */
     background-color: #eee;
 }
-
+/*
+.fc-sun, .fc-sat {
+    background-color: rgba(230, 50, 30, 0.08);
+}*/

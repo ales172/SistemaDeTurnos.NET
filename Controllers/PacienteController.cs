@@ -82,7 +82,7 @@ namespace SistemaDeTurnos.Controllers
         {
             this.ViewBag.TituloPagina = "Agregar Paciente";
             Ficha ficha = new Ficha();
-            ficha.Id_Paciente = 1;
+            ficha.Id_Paciente = db.Paciente.FirstOrDefault().Id_Paciente;
             db.Ficha.Add(ficha);
             db.SaveChanges();
             ficha = db.Ficha.FirstOrDefault(f => f.Id_Ficha == ficha.Id_Ficha);
@@ -118,7 +118,7 @@ namespace SistemaDeTurnos.Controllers
                 this.db.SaveChanges();
                 this.ViewBag.Ficha = nuevaFicha;
                 db.SaveChanges();
-                return View("Details", db.Paciente.FirstOrDefault(p => p.Id_Paciente == id));
+                return RedirectToAction($"/Details/{paciente.Id_Paciente}");
             }
             catch
             {
@@ -146,11 +146,11 @@ namespace SistemaDeTurnos.Controllers
                 this.db.Paciente.Attach(paciente);
                 this.db.Entry(paciente).State = System.Data.Entity.EntityState.Modified;
                 this.db.SaveChanges();
-                return View("Details",paciente.Id_Paciente);
+                return View("Details",paciente);
             }
             catch
             {
-                return View("Index");
+                return RedirectToAction("/Index");
             }
         }
 
@@ -162,7 +162,7 @@ namespace SistemaDeTurnos.Controllers
             this.db.Ficha.Remove(ficha);
             this.db.Paciente.Remove(paciente);
             this.db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("/Index");
         }
 
         public ActionResult verFicha(int Id)
@@ -186,27 +186,5 @@ namespace SistemaDeTurnos.Controllers
             var json = JsonConvert.SerializeObject(pacientes);
             return Json(json, JsonRequestBehavior.AllowGet);
         }
-        /*
-        private List<Paciente> normalizarLista(IQueryable<Paciente> lista)
-        {
-            List<Paciente> listaNormal = new List<Paciente>();
-            foreach (Paciente p in lista)
-            {
-                string NombreOriginal = p.Nombre;
-                string ApellidoOriginal = p.Apellido;
-                string NombreNormalizado = NombreOriginal.Normalize(NormalizationForm.FormD);
-                string ApellidoNormalizado = ApellidoOriginal.Normalize(NormalizationForm.FormD);
-
-                Regex reg = new Regex("[^a-zA-Z0-9 ]");
-                string nombreSinAcentos = reg.Replace(NombreNormalizado, "");
-                string apellidoSinAcentos = reg.Replace(ApellidoNormalizado, "");
-                p.Nombre = nombreSinAcentos;
-                p.Apellido = apellidoSinAcentos;
-                listaNormal.Add(p);
-            }
-
-            return listaNormal;
-        }*/
-
     }
 }

@@ -31,5 +31,6 @@ namespace SistemaDeTurnos.Models
         public virtual DbSet<Paciente> Paciente { get; set; }
         public virtual DbSet<Tratamiento> Tratamiento { get; set; }
         public virtual DbSet<Turno> Turno { get; set; }
+        public virtual DbSet<Color> Color { get; set; }
     }
 }

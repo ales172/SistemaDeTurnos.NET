@@ -16,7 +16,6 @@
                         <td>
                             <div class="form-group">
                                 <select class="form-control custom-select" name="Id_Paciente">
-                                    <option selected="">Asignar turno a:</option>
                                     @foreach (Paciente p in this.ViewBag.Pacientes)
                                     {
                                         if (p.Id_Paciente == this.Model.Id_Paciente)

@@ -1,23 +1,29 @@
 ﻿
-<head>
-    <link href="~/Content/fullcalendar.css" rel="stylesheet" />
-    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <head>
+        <link href="~/Content/fullcalendar.css" rel="stylesheet" />
+        <link href="~/Content/bootstrap.css" rel="stylesheet" />
 
-  
-    <style>
-        .calendar-body {
-            height: calc(100vh - 165px);
-            width: 90%;
-            padding-left: 130px;
-        }
 
-        .calendar-header {
-            padding-left: 30%;
-        }
-    </style>
-</head>
+        <style>
+            .calendar-body {
+                height: calc(100vh - 165px);
+                width: 90%;
+                padding-left: 130px;
+            }
+
+            .calendar-header {
+                padding-left: 30%;
+            }
+        </style>
+    </head>
+
 <div class="calendar-body">
-    <div id="calendar"></div>
+        <div class="form-group" style="width:200px">
+        <select class="form-control" id="Profesionales">
+        </select>
+        </div>
+    <div id="calendar">
+    </div>
 </div>
 <div id="MyPopup" class="modal fade modal-CreateEvent" role="dialog">
     <div class="modal-dialog">

@@ -15,7 +15,6 @@ namespace SistemaDeTurnos.Controllers
         // GET: Turno
         public ActionResult Index()
         {
-            ;
             return View("Index");
         }
 
@@ -56,7 +55,7 @@ namespace SistemaDeTurnos.Controllers
             }
             catch
             {
-                return View("Index", db.Turno.ToList());
+                return RedirectToAction("/Index");
             }
         }
         // GET: Turno/Create
@@ -75,19 +74,14 @@ namespace SistemaDeTurnos.Controllers
             this.ViewBag.Pacientes = this.db.Paciente.ToList();
             try
             {
-                if (turno == null)
-                {
-                    return Content("No se pudieron insertar los datos, faltan datos");
-                }
-                turno.Fecha_Fin = turno.Fecha_Inicio.Add(new TimeSpan(1,0,0));
+                turno.Fecha_Fin = turno.Fecha_Inicio.Add(new TimeSpan(1, 0, 0));
                 this.db.Turno.Add(turno);
                 this.db.SaveChanges();
-                return View("Index", db.Turno.ToList());
             }
             catch
             {
-                return View("Index", db.Turno.ToList());
             }
+            return RedirectToAction("/Index");
         }
 
         // GET: Turno/Edit/5
@@ -116,7 +110,7 @@ namespace SistemaDeTurnos.Controllers
             }
             catch
             {
-                return View("Index",this.db.Turno.ToList());
+                return RedirectToAction("/Index");
             }
         }
 
@@ -127,7 +121,8 @@ namespace SistemaDeTurnos.Controllers
             this.db.SaveChanges();
             this.ViewBag.Medicos = this.db.Medico.ToList();
             this.ViewBag.Pacientes = this.db.Paciente.ToList();
-            return View("Index", this.db.Turno.ToList());
+            List<Turno> turnos = this.db.Turno.ToList();
+            return RedirectToAction("/Index");
         }
 
         public ActionResult GetEventData()
@@ -153,11 +148,30 @@ namespace SistemaDeTurnos.Controllers
         {
             using (SystemaDeTurnosEntities db = new SystemaDeTurnosEntities())
             {
-                Turno eventDetail = db.Turno.ToList().Where(x => x.Id_Turno == Convert.ToInt32(eventId)).First();
+                Turno eventDetail = db.Turno.Where(x => x.Id_Turno == Convert.ToInt32(eventId)).First();
                 eventDetail.Fecha_Inicio = startDate;
                 eventDetail.Fecha_Fin = endDate;
                 db.SaveChanges();
             }
+        }
+        public JsonResult TraeColores()
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            List<Color> colores = this.db.Color.ToList();
+            var json = JsonConvert.SerializeObject(colores);
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult TraeTurnosPorIdMedico(int Id_Medico)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            List<Turno> turnos = new List<Turno>();
+            IEnumerable<Turno> turnosaux = this.db.Turno.ToList().Where(t => t.Id_Medico == Id_Medico);
+            foreach(Turno t in turnosaux)
+            {
+                turnos.Add(t);
+            }
+            var json = JsonConvert.SerializeObject(turnos);
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
     }
 }

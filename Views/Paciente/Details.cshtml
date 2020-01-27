@@ -5,19 +5,23 @@
     ViewBag.Title = "Details";
 }
 @{ 
-        Ficha ficha = this.ViewBag.Ficha;
-       /* if(ficha.Antecedentes == null)
-        {
-            ficha.Antecedentes = "";
-        }
-        if (ficha.Contraindicaciones == null)
-        {
-            ficha.Contraindicaciones = "";
-        }
-        if(ficha.Diagnostico == null)
-        {
-            ficha.Diagnostico = "";
-        }*/
+    Ficha ficha = this.ViewBag.Ficha;
+    if(ficha == null)
+    {
+        ficha = new Ficha();
+    }
+    if(ficha.Antecedentes == null)
+    {
+        ficha.Antecedentes = "";
+    }
+    if (ficha.Contraindicaciones == null)
+    {
+        ficha.Contraindicaciones = "";
+    }
+    if(ficha.Diagnostico == null)
+    {
+        ficha.Diagnostico = "";
+    }
 }
 
 <!DOCTYPE html>
@@ -121,9 +125,9 @@
                         <table>
                             <tr>
                                 <td>
-                                    @{ 
-                                        DateTime fi = (DateTime)ficha.Fecha_Ingreso;
-                                    string fechaIng = fi.ToString("dd/MM/yyyy");
+                                    @{
+                                        DateTime fiaux = (DateTime)ficha.Fecha_Ingreso;
+                                        string fechaIng = fiaux.ToString("dd/MM/yyyy");
                                     }
                                     <label>Fecha de Ingreso</label>
                                     <p>@fechaIng</p>
