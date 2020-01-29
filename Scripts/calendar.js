@@ -1,4 +1,5 @@
-﻿function GetEventsOnPageLoad() {
+﻿//funcion que carga el calendario
+function GetEventsOnPageLoad() {
     $('#calendar').fullCalendar({
         locale: 'es',
         header: {
@@ -12,7 +13,7 @@
             week: 'Semana',
             day: 'Día'
         },
-        defaultView: 'month',
+        defaultView: 'agendaWeek',
         selectable: true,
         height: 'parent',
         events: function (start, end, timezone, callback) {
@@ -31,7 +32,21 @@
             if (view.name == 'month') {
                 $('#calendar').fullCalendar('changeView', 'agendaDay', date);
             } else {
-                showModal('Turno Nuevo', CreaTurno(date), null)
+                // leemos las fechas de inicio de evento y hoy
+                var evento = moment(date).format();
+                var now = moment();
+                // si el inicio de evento ocurre hoy o en el futuro mostramos el modal
+                if (now.isBefore(evento)) {
+                    showModal('Turno Nuevo', CreaTurno(date), null);
+                }
+                // si no, mostramos una alerta de error
+                else {
+                    Swal.fire(
+                        'Error',
+                        'No se puede crear un turno para una fecha pasada',
+                        'warning'
+                    )
+                }
             }
         },
         eventRender: function eventRender(event) {
@@ -46,6 +61,7 @@
         nextDayThreshold: '00:00:00',
         editable: false,
         droppable: false,
+        allDay: false,
         nowIndicator: true,
         eventClick: function (EventId) {
             GetEventDetailByEventId(EventId.Id_Turno);
@@ -102,7 +118,7 @@ function showModal(title, body, isEventDetail) {
         var eventDetail = 'Paciente: ' + paciente.Apellido + ', ' + paciente.Nombre + '</br>';
         //informacion que va al modal
         var eventInfo = 'Profesional: ' + medico.Apellido + ', ' + medico.Nombre + '</br>';
-        var eventStart = 'Fecha y Hora: ' + moment(turno.Fecha_Inicio).format("DD-MM-YY HH:mm") + '</br><div class="self-align: right"><button class="btn"><a href="/Turno/Edit/' + turno.Id_Turno + '">Editar</a></button> &nbsp; <button class="btn"><a href="/Turno/Delete/' + turno.Id_Turno + '">Eliminar</a></button></div>';
+        var eventStart = 'Fecha y Hora: ' + moment(turno.Fecha_Inicio).format("DD-MM-YY HH:mm") + '</br><div class="self-align: right"><button class="btn"><a href="/Turno/Edit/' + turno.Id_Turno + '">Editar</a></button> &nbsp; <button class="btn" onclick="eliminaTurno(' + turno.Id_Turno + ')">Eliminar</button></div>';
         $("#MyPopup .modal-body").html(eventDetail + eventInfo + eventStart);
         $("#MyPopup").modal("show");
     }
@@ -121,6 +137,7 @@ function UpdateEventDetails(eventId, startDate, endDate) {
         data: JSON.stringify(object)
     });
 }
+
 // Funcion que tra un JSON de UN profesional a partir del Id del mismo
 function traeMedico(Id_Medico) {
     var object = {};
@@ -139,6 +156,7 @@ function traeMedico(Id_Medico) {
     });
     return med;
 }
+
 // Funcion que trae un JSON de los profesionales
 function traeMedicos() {
     var meds = null;
@@ -154,6 +172,7 @@ function traeMedicos() {
     });
     return meds;
 }
+
 // Funcion que trae un JSON de UN paciente a partir del Id del mismo
 function traePaciente(Id_Paciente) {
     var object = {};
@@ -172,6 +191,7 @@ function traePaciente(Id_Paciente) {
     });
     return pcte;
 }
+
 //Funcion que trae un JSON de todos los pacientes
 function traePacientes() {
     var pctes = null;
@@ -216,10 +236,11 @@ function CreaTurno(date) {
         htmlOptPctes = htmlOptPctes + '<option value="' + value.Id_Paciente + '">' + value.Apellido + ',' + value.Nombre +'</option>';
     });
     //cierro select y completo loque queda del html y cierro el form
-    html = html + htmlOptPctes + '</select></div></td></tr></tbody></table ><button class="btn">Enviar Datos</button></form >';
+    html = html + htmlOptPctes + '</select></div></td></tr></tbody></table ><button class="btn" onClick="confirmacion()">Enviar Datos</button></form >';
     //devuelvo el html completo
     return html;
 }
+
 //completa el select de profesionales para filtrar
 $(document).ready(function () {
     $("#Profesionales").ready(function () {
@@ -240,12 +261,14 @@ $(document).ready(function () {
         });
     });
 });
+
 // Filtro de profesionales
 $('#Profesionales').on('change', function () {
     select = $(this).val();
     console.log(select);
     $('#calendar').fullCalendar('rerenderEvents');
 });
+
 //Trae colores en formato json
 function traeColores() {
     var colores = null;
@@ -261,6 +284,7 @@ function traeColores() {
     });
     return colores;
 }
+
 // Trae turnos asignados al medico pasado por id en formato json
 function TraeTurnosPorIdMedico(Id_Medico) {
     var turnos = null;
@@ -286,6 +310,7 @@ function TraeTurnosPorIdMedico(Id_Medico) {
     //Retorno el array de los turnos, asociados al medico que paso pr Id, ya mapeados listos para renderizar
     return events;
 }
+
 //trae todos los turnos en formato json
 function TraeTurnos() {
     var turnos = null;
@@ -301,6 +326,7 @@ function TraeTurnos() {
     });
     return turnos;
 }
+
 //funcion que pushea los eventos a un arreglo
 function PushEvents(eventosEntrada) {
     var events = [];
@@ -345,4 +371,55 @@ function PushEvents(eventosEntrada) {
     });
     //Devuelvo los eventos mapeados
     return events
+}
+
+//ELIMINA TURNO - Funcion para llamar al modal de confirmacion
+function eliminaTurno(Id_Turno) {
+    Swal.fire({
+        title: 'Esta seguro que desea cancelar el turno',
+        text: "Una vez cancelado, no se puede revertir",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, cancelarlo!',
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                async: false,
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "/Turno/Delete/" + Id_Turno,
+                success: Swal.fire({
+                    text: 'Deleted!',
+                    title: 'Your file has been deleted.',
+                    icon: 'success',
+                }).then(function () {
+                    window.location.reload(true);
+                })
+            });
+        }
+    })
+}
+
+//DATOS GUARDADOS - Funcion que levanta modal de datos guardados
+function confirmacion() {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: false,
+        onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+    Toast.fire({
+        icon: 'success',
+        title: 'Datos cargados exitosamente',
+        onClose: location.href = 'Turno/Index',
+    }).then(function(){
+        location.href = 'Turno/Index';
+    })
 }

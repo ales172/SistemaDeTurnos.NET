@@ -11,18 +11,6 @@ namespace SistemaDeTurnos.Controllers
     {
         SystemaDeTurnosEntities db = new SystemaDeTurnosEntities();
 
-        // GET: Observacion
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET: Observacion/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
         // GET: Observacion/Create
         public ActionResult Create(int idPaciente)
         {
@@ -80,20 +68,21 @@ namespace SistemaDeTurnos.Controllers
         }
 
         // GET: Observacion/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int Id)
         {
-            return View();
+            return View(this.db.Observacion.Find(Id));
         }
 
         // POST: Observacion/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(Observacion observacion)
         {
             try
             {
                 // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                this.db.Observacion.Remove(observacion);
+                this.db.SaveChanges();
+                return RedirectToAction($"/Paciente/Detail/{observacion.Id_Paciente}");
             }
             catch
             {

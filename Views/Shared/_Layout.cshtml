@@ -12,7 +12,7 @@
     <title>Document</title>
     <link href="~/Content/style.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
-
+    <link href="~/Content/sweetaler2.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -24,7 +24,6 @@
             <a href="/Medico/Index" class="link">Médicos</a>
             <a href="/Paciente/Index" class="link">Pacientes</a>
             <a href="/Turno/Index" class="link">Turnos</a>
-
         </nav>
     </header>
 
@@ -40,18 +39,19 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/sweetalert2.all.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/fullcalendar.min.js"></script>
+    <script src="~/Scripts/jquery.qtip.min.js"></script>
+    <script src="~/Scripts/calendar.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetEventsOnPageLoad();
+        });
+    </script>
 </body>
 </html>
-<script src="~/Scripts/jquery-3.4.1.js"></script>
-<script src="~/Scripts/moment.min.js"></script>
-<script src="~/Scripts/bootstrap.js"></script>
-<script src="~/Scripts/fullcalendar.min.js"></script>
-<script src="~/Scripts/jquery.qtip.min.js"></script>
-<script src="~/Scripts/calendar.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        GetEventsOnPageLoad();
-    });
-</script>
 
 

@@ -199,8 +199,7 @@ create table Color(
  Id_Color int primary key identity(1,1) not null,
  Hex varchar(10)
  )
- drop table Color
- select *from Color
+
  insert into Color(Hex) values
 ('#FFC0CB'),
 ('#DB7093'),
