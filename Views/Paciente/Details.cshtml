@@ -4,13 +4,13 @@
 @{
     ViewBag.Title = "Details";
 }
-@{ 
+@{
     Ficha ficha = this.ViewBag.Ficha;
-    if(ficha == null)
+    if (ficha == null)
     {
         ficha = new Ficha();
     }
-    if(ficha.Antecedentes == null)
+    if (ficha.Antecedentes == null)
     {
         ficha.Antecedentes = "";
     }
@@ -18,20 +18,22 @@
     {
         ficha.Contraindicaciones = "";
     }
-    if(ficha.Diagnostico == null)
+    if (ficha.Diagnostico == null)
     {
         ficha.Diagnostico = "";
     }
 }
 
 <!DOCTYPE html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <html>
 <body>
     <main>
         <h2>@this.ViewBag.TituloPagina</h2>
-        <div style="padding-left: 15px; padding-bottom:5px; color: #713bff">
+        <div style="padding-left: 15px; padding-bottom:5px; color: #0275d8">
             @Html.ActionLink("Editar    ", $"Edit", new { Id = this.Model.Id_Paciente }, new
             {
                 @class = "btn-link glyphicon glyphicon-edit",
@@ -118,8 +120,8 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
+                        <h4 class="modal-title" style="left">@this.Model.Nombre @this.Model.Apellido</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">@this.Model.Nombre @this.Model.Apellido</h4>
                     </div>
                     <div class="modal-body">
                         <table>
@@ -172,8 +174,8 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">@this.Model.Nombre @this.Model.Apellido</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
                         <h3>Observaciones</h3>
@@ -239,8 +241,8 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">@this.Model.Nombre @this.Model.Apellido</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
                         <h3>Tratamientos</h3>
@@ -305,8 +307,8 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">@this.Model.Nombre @this.Model.Apellido</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
                         <h3>Turnos</h3>
@@ -325,40 +327,40 @@
                                             maux = m;
                                         }
                                     }
-                                 <tr>
-                                    @{
-                                        if (t.Fecha_Inicio < DateTime.Now)
-                                        {
-                                        <td>
-                                            <blockquote class="blockquote text-center" style="background-color:#e87d7d">
-                                                <p class="mb-0">Turno: @fecha</p>
-                                                <p>Asignado a @maux.Apellido, @maux.Nombre</p>
-                                                <h5 style="text-align:left">El turno ya pasó</h5>
-                                            </blockquote>
-                                        </td>
-                                        }
-                                        else
-                                        {
-                                        <td>
-                                        <blockquote class="blockquote text-center">
-                                            <p class="mb-0">Turno: @fecha</p>
-                                            <p>Asignado a @maux.Apellido, @maux.Nombre</p>
-                                        </blockquote>
-                                        </td>
-                                        <td>
-                                            @Html.ActionLink("Editar    ", $"../Turno/Edit", new { Id = t.Id_Turno }, new
-                                       {
-                                           @class = "btn glyphicon glyphicon-edit",
-                                           style = "font-size: 1.Sem"
-                                       })
-                                            @Html.ActionLink("Suspender    ", "../Turno/Delete", new { Id = t.Id_Turno }, new
-                                       {
-                                           @class = "btn glyphicon glyphicon-remove"
-                                       })
-                                        </td>
+                                    <tr>
+                                        @{
+                                            if (t.Fecha_Inicio < DateTime.Now)
+                                            {
+                                                <td>
+                                                    <blockquote class="blockquote text-center" style="background-color:#e87d7d">
+                                                        <p class="mb-0">Turno: @fecha</p>
+                                                        <p>Asignado a @maux.Apellido, @maux.Nombre</p>
+                                                        <h5 style="text-align:left">El turno ya pasó</h5>
+                                                    </blockquote>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <blockquote class="blockquote text-center">
+                                                        <p class="mb-0">Turno: @fecha</p>
+                                                        <p>Asignado a @maux.Apellido, @maux.Nombre</p>
+                                                    </blockquote>
+                                                </td>
+                                                <td>
+                                                    @Html.ActionLink("Editar    ", $"../Turno/Edit", new { Id = t.Id_Turno }, new
+                                               {
+                                                   @class = "btn glyphicon glyphicon-edit",
+                                                   style = "font-size: 1.Sem"
+                                               })
+                                                    @Html.ActionLink("Suspender    ", "../Turno/Delete", new { Id = t.Id_Turno }, new
+                                               {
+                                                   @class = "btn glyphicon glyphicon-remove"
+                                               })
+                                                </td>
                                             }
                                         }
-                                 </tr>
+                                    </tr>
                                 }
                             }
                             else
@@ -375,7 +377,7 @@
                         @Html.ActionLink("Agregar    ", $"../Turno/CreateFromPaciente/", new { Id = this.Model.Id_Paciente }, new
                                                                    {
                                                                        @class = "btn btn-default"
-                                                                   })                        
+                                                                   })
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>

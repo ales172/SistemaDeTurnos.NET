@@ -51,7 +51,7 @@ namespace SistemaDeTurnos.Controllers
                 {
                     return Content("No se pudieron insertar los datos, faltan datos");
                 }
-                turno.Fecha_Fin = turno.Fecha_Inicio.Add(new TimeSpan(1, 0, 0));
+                turno.Fecha_Fin = turno.Fecha_Inicio.Add(new TimeSpan(0, 30, 0));
                 this.db.Turno.Add(turno);
                 this.db.SaveChanges();
                 return RedirectToAction($"../Paciente/Details/{turno.Id_Paciente}");
@@ -77,7 +77,7 @@ namespace SistemaDeTurnos.Controllers
             this.ViewBag.Pacientes = this.db.Paciente.ToList();
             try
             {
-                turno.Fecha_Fin = turno.Fecha_Inicio.Add(new TimeSpan(1, 0, 0));
+                turno.Fecha_Fin = turno.Fecha_Inicio.Add(new TimeSpan(0, 30, 0));
                 this.db.Turno.Add(turno);
                 this.db.SaveChanges();
             }
@@ -104,7 +104,7 @@ namespace SistemaDeTurnos.Controllers
             this.ViewBag.Pacientes = this.db.Paciente.ToList();
             try
             {
-                turno.Fecha_Fin = turno.Fecha_Inicio.Add(new TimeSpan(1, 0, 0));
+                turno.Fecha_Fin = turno.Fecha_Inicio.Add(new TimeSpan(0, 30, 0));
                 this.db.Turno.Attach(turno);
                 this.db.Entry(turno).State = System.Data.Entity.EntityState.Modified;
                 this.db.SaveChanges();

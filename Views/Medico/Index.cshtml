@@ -2,33 +2,34 @@
 @model List<Medico>
 
 <!DOCTYPE html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
 <html>
 <body>
     <main>
-        <div>
+        <div style="padding-left: 10px">
 
-            <p>Medicos:</p>
-            <span style="z-index:0; color: #15004D">@Html.ActionLink("Nuevo", "Create", "Medico", null, new { @class = "glyphicon glyphicon-plus" })</span>
+            <h4>Profesionales:</h4>
+            <span style="z-index:0; color: #0275d8">@Html.ActionLink("Nuevo", "Create", "Medico", null, new { @class = "glyphicon glyphicon-plus" })</span>
             @using (Html.BeginForm())
             {
-                <table>
+                <table class="table table-condensed table-hover table-responsive" style="display: block; margin-left: auto; margin-right: auto;">
                     <thead>
-                        <tr>Buscar Medico</tr>
+                        <tr>Buscar Profesional</tr>
                     </thead>
-                    <tbody style="color: #15004D">
+                    <tbody style="color: #0275d8">
                         <tr>
                             <td>
                                 <input name="busquedaMedico" type="text" class="form-control" autocomplete="off" />
                             </td>
                             <td class="text-right">
-                                <button class="glyphicon glyphicon-search btnCrear"></button>
+                                <button class="glyphicon glyphicon-search btnCrear" style="color: #0275d8"></button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             }
-            <table class="table-condensed table-hover table-responsive">
+            <table class="table table-condensed table-hover table-responsive" style="display: block; margin-left: auto; margin-right: auto;">
 
                 @foreach (Medico medico in this.Model)
                 {

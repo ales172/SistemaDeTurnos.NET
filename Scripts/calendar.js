@@ -115,7 +115,7 @@ function showModal(title, body, isEventDetail) {
         var paciente = JSON.parse(pacienteJs);
         var medico = JSON.parse(medicoJs);
         //Titulo del modal
-        var eventDetail = 'Paciente: ' + paciente.Apellido + ', ' + paciente.Nombre + '</br>';
+        var eventDetail = 'Paciente: ' + paciente.Apellido + ', ' + paciente.Nombre + '<div class="self-align: right" style="float:right"><button class="btn"><a href="/Paciente/Details/' + paciente.Id_Paciente + '">Ver Paciente</a></div></br>';
         //informacion que va al modal
         var eventInfo = 'Profesional: ' + medico.Apellido + ', ' + medico.Nombre + '</br>';
         var eventStart = 'Fecha y Hora: ' + moment(turno.Fecha_Inicio).format("DD-MM-YY HH:mm") + '</br><div class="self-align: right"><button class="btn"><a href="/Turno/Edit/' + turno.Id_Turno + '">Editar</a></button> &nbsp; <button class="btn" onclick="eliminaTurno(' + turno.Id_Turno + ')">Eliminar</button></div>';
@@ -138,7 +138,7 @@ function UpdateEventDetails(eventId, startDate, endDate) {
     });
 }
 
-// Funcion que tra un JSON de UN profesional a partir del Id del mismo
+// Funcion que trae un JSON de UN profesional a partir del Id del mismo
 function traeMedico(Id_Medico) {
     var object = {};
     var med = null;
@@ -253,7 +253,7 @@ $(document).ready(function () {
                 var meds = JSON.parse(response);
                 var colors = JSON.parse(traeColores());
                 $("#Profesionales").empty();
-                $("#Profesionales").append('<option selected value="all">Ver turnos de: </option>');
+                $("#Profesionales").append('<option selected value="all">Todos: </option>');
                 $.each(meds, function (index, value) {
                     $("#Profesionales").append('<option value="' + value.Id_Medico + '">' + value.Apellido + ',' + value.Nombre + '</option>');
                 });

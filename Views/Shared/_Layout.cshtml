@@ -3,16 +3,21 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Alejandro Schulten</title>
+    <title>@ViewBag.Title Salud Integral</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link href="~/Content/style.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/sweetaler2.css" rel="stylesheet" />
+
+
+
 </head>
 <body>
     <header>
@@ -21,7 +26,7 @@
             <h2>Sistema De Turnos</h2>
         </div>
         <nav id="navMenu">
-            <a href="/Medico/Index" class="link">Médicos</a>
+            <a href="/Medico/Index" class="link">Profesionales</a>
             <a href="/Paciente/Index" class="link">Pacientes</a>
             <a href="/Turno/Index" class="link">Turnos</a>
         </nav>
@@ -42,10 +47,13 @@
     <script src="~/Scripts/jquery-3.4.1.js"></script>
     <script src="~/Scripts/moment.min.js"></script>
     <script src="~/Scripts/sweetalert2.all.min.js"></script>
-    <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/fullcalendar.min.js"></script>
     <script src="~/Scripts/jquery.qtip.min.js"></script>
     <script src="~/Scripts/calendar.js"></script>
+    <!-- JS, Popper.js, and jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
     <script type="text/javascript">
         $(document).ready(function () {
             GetEventsOnPageLoad();

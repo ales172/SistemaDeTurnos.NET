@@ -6,11 +6,13 @@
 }
 
 <!DOCTYPE html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
 <html>
 <body>
     <main>
         <h2>@this.ViewBag.TituloPagina</h2>
-        <div style="color: #713bff">
+        <div style="color: #0275d8">
             @Html.ActionLink("Editar    ", "Edit", new { Id = this.Model.Id_Medico }, new
             {
                 @class = "btn glyphicon glyphicon-edit",

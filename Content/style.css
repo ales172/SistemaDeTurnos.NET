@@ -6,20 +6,20 @@
 body{
     padding-top:100px
 }
-body > header {
-    display: inline-flex;
-    padding: 0.5rem 1rem;
-    justify-content: space-between;
-    align-items: center;
-    color: white;
-    background-color: #713bff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    position:fixed;
-    width: 100%;
-    height: 83px;
-    top: 0;
-    z-index:999;
-}
+    body > header {
+        display: inline-flex;
+        padding: 0.5rem 1rem;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+        background-color: #0275d8;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        position: fixed;
+        width: 100%;
+        height: 83px;
+        top: 0;
+        z-index: 999;
+    }
 
 
     body > header > a {
@@ -59,14 +59,14 @@ html, body {
     height: 4em;
 }
 footer {
-    background-color: #713bff;
+    background-color: #0275d8;
     text-align: center;
     color: white;
     padding: 1rem;
     bottom: 0;
     position: fixed;
     width: 100%;
-    z-index:901;
+    z-index: 901;
 }
 
 
@@ -96,9 +96,9 @@ footer {
     top: 85px;
     box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.3);
     padding: 5px;
-    color: #713bff;
+    color: #0275d8;
     z-index: 900;
-    height:100vh;
+    height: 100vh;
 }
 #tablaMuestra {
     align-items:center;
@@ -127,7 +127,7 @@ footer {
     width: 100%;
 }
 #navLibros > a {
-    color: #713bff;
+    color: #0275d8;
 }
 #tablaCrea{
     padding-bottom: 15px;
